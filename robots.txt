@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Sitemap: https://4-store.netlify.app/sitemap.xml
+
+
+
