@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>4 STORE - طلب iPhone</title>
+  <title>4 STORE - طلب واستعلام</title>
   <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     body {
@@ -11,30 +11,46 @@
       background: #f9f9fb;
       color: #222;
       padding: 20px;
-      max-width: 400px;
+      max-width: 420px;
       margin: 40px auto;
       direction: rtl;
     }
-
     h1 {
       color: #3b0a77;
       text-align: center;
     }
-
+    .tab-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .tab-buttons button {
+      width: 48%;
+      padding: 10px;
+      border-radius: 30px;
+      border: none;
+      background: #eee;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .tab-buttons button.active {
+      background: linear-gradient(90deg, #25D366, #128C7E);
+      color: white;
+    }
     form {
       background: white;
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0 6px 20px rgba(140,58,255,0.15);
+      margin-bottom: 20px;
     }
-
     label {
       display: block;
       margin: 15px 0 5px;
       font-weight: 700;
       color: #3b0a77;
     }
-
     input[type="text"],
     input[type="tel"] {
       width: 100%;
@@ -44,8 +60,7 @@
       font-size: 1em;
       box-sizing: border-box;
     }
-
-    button {
+    button[type="submit"] {
       margin-top: 25px;
       width: 100%;
       padding: 15px;
@@ -58,33 +73,9 @@
       cursor: pointer;
       transition: box-shadow 0.3s ease;
     }
-
-    button:hover {
+    button[type="submit"]:hover {
       box-shadow: 0 0 25px #25D366;
     }
-
-    #responseMsg,
-    #errorMsg {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 10px;
-      font-weight: 700;
-      text-align: center;
-      display: none;
-    }
-
-    #responseMsg {
-      background: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-    }
-
-    #errorMsg {
-      background: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-    }
-
     .spinner {
       border: 5px solid #f3f3f3;
       border-top: 5px solid #25D366;
@@ -95,27 +86,26 @@
       margin: 20px auto;
       display: none;
     }
-
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
-    #processingBar {
-      display: none;
-      text-align: center;
-      font-weight: bold;
-      font-size: 1.1em;
-      color: #3b0a77;
+    .message {
       margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: 700;
+      text-align: center;
+      display: none;
     }
+    .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 
     #successAnimation {
       display: none;
       text-align: center;
       margin-top: 30px;
     }
-
     .checkmark-circle {
       margin: 0 auto;
       width: 100px;
@@ -128,7 +118,6 @@
       align-items: center;
       animation: pop 0.6s ease-out;
     }
-
     .checkmark {
       width: 25px;
       height: 12px;
@@ -136,27 +125,10 @@
       border-bottom: 4px solid #fff;
       transform: rotate(-45deg);
     }
-
-    .sparkles::before,
-    .sparkles::after {
-      content: "";
-      position: absolute;
-      top: -30px;
-      font-size: 14px;
-      color: #aef1dd;
-      animation: twinkle 1.5s infinite;
-    }
-
     @keyframes pop {
       0% { transform: scale(0.5); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
-
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.2; }
-      50% { opacity: 1; }
-    }
-
     .success-text {
       margin-top: 15px;
       font-size: 1.3em;
@@ -164,164 +136,210 @@
       color: #3B0A77;
       animation: fadeIn 1s ease-in;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
+    .copy-code {
+      margin-top: 10px;
+      text-align: center;
+    }
+    .copy-code button {
+      background: #3b0a77;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
     footer {
       text-align: center;
-      margin-top: 40px;
-      color: #888;
+      margin-top: 30px;
       font-size: 0.9em;
+      color: #777;
     }
   </style>
 </head>
 <body>
 
-  <h1>طلب iPhone</h1>
+  <h1>4 STORE</h1>
+  <div class="tab-buttons">
+    <button id="showOrderTab" class="active">طلب</button>
+    <button id="showTrackTab">استعلام</button>
+  </div>
 
+  <!-- نموذج الطلب -->
   <form id="orderForm">
-    <label for="name">الاسم:</label>
-    <input type="text" id="name" name="name" placeholder="ادخل اسمك" required />
-
-    <label for="phone">رقم الجوال:</label>
-    <input type="tel" id="phone" name="phone" placeholder="05xxxxxxxx" required pattern="05[0-9]{8}" title="أدخل رقم جوال صحيح يبدأ بـ 05" />
-
-    <label for="device">اسم الجهاز:</label>
-    <input type="text" id="device" name="device" value="iPhone 16 Pro Max" readonly />
-
+    <label>الاسم:</label>
+    <input type="text" id="name" required />
+    <label>رقم الجوال:</label>
+    <input type="tel" id="phone" pattern="05[0-9]{8}" required />
+    <label>اسم الجهاز:</label>
+    <input type="text" id="device" value="iPhone 16 Pro Max" readonly />
     <button type="submit">أرسل الطلب</button>
   </form>
 
-  <div id="processingBar">⏳ جاري معالجة الطلب...</div>
   <div id="spinner" class="spinner"></div>
+  <div id="successAnimation">
+    <div class="checkmark-circle"><div class="checkmark"></div></div>
+    <p class="success-text">تم بنجاح ✅</p>
+  </div>
+  <div id="orderMsg" class="message success"></div>
+  <div id="errorMsg" class="message error"></div>
 
-  <div id="successAnimation"></div>
+  <!-- نموذج الاستعلام -->
+  <form id="trackForm" style="display:none;">
+    <label>الاسم:</label>
+    <input type="text" id="trackName" required />
+    <label>رقم الجوال:</label>
+    <input type="tel" id="trackPhone" pattern="05[0-9]{8}" required />
+    <label>كود الطلب:</label>
+    <input type="text" id="trackCode" required />
+    <button type="submit">استعلم</button>
+  </form>
 
-  <div id="responseMsg" role="alert" aria-live="polite"></div>
-  <div id="errorMsg" role="alert" aria-live="assertive"></div>
+  <div id="trackResult" class="message success"></div>
+  <div class="copy-code" id="copyArea" style="display:none;">
+    <button onclick="copyCode()">نسخ كود الطلب 📋</button>
+  </div>
 
   <footer>
     جميع الحقوق محفوظة &copy; 4STORE - <span dir="ltr">2025</span>
   </footer>
 
 <script>
-  const webhookURL = "https://discord.com/api/webhooks/1378768286178742432/08gieZ8nof2XPyIJ_AQmVleQl17tBuxwj6WGhQGbl_TayVPMghWfeSjugt8lHQCIidkm";
-
   const orderForm = document.getElementById('orderForm');
-  const responseMsg = document.getElementById('responseMsg');
+  const trackForm = document.getElementById('trackForm');
+  const orderMsg = document.getElementById('orderMsg');
   const errorMsg = document.getElementById('errorMsg');
   const spinner = document.getElementById('spinner');
-  const processingBar = document.getElementById('processingBar');
   const successAnimation = document.getElementById('successAnimation');
-
-  const MS_IN_24_HOURS = 86400000;
-
-  function formatRemainingTime(ms) {
-    const hours = Math.floor(ms / (1000 * 60 * 60));
-    const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-    return `${hours} ساعة و ${minutes} دقيقة`;
-  }
-
-  function showError(message) {
-    errorMsg.textContent = message;
-    errorMsg.style.display = 'block';
-    responseMsg.style.display = 'none';
-    spinner.style.display = 'none';
-    successAnimation.style.display = 'none';
-    processingBar.style.display = 'none';
-  }
-
-  function hideError() {
-    errorMsg.style.display = 'none';
-  }
-
-  const lastSentTime = localStorage.getItem("orderSentTime");
-  if (lastSentTime) {
-    const now = Date.now();
-    const timeDiff = now - parseInt(lastSentTime);
-    if (timeDiff < MS_IN_24_HOURS) {
-      const remaining = MS_IN_24_HOURS - timeDiff;
-      const timeText = formatRemainingTime(remaining);
-      orderForm.style.display = 'none';
-      showError(`🚫 لقد أرسلت الطلب مسبقًا، يمكنك إعادة الإرسال بعد: ${timeText}`);
-    }
-  }
-
-  orderForm.addEventListener('submit', async (e) => {
+  const trackResult = document.getElementById('trackResult');
+  const copyArea = document.getElementById('copyArea');
+  
+  document.getElementById('showOrderTab').onclick = () => {
+    orderForm.style.display = 'block';
+    trackForm.style.display = 'none';
+    document.getElementById('showOrderTab').classList.add('active');
+    document.getElementById('showTrackTab').classList.remove('active');
+    orderMsg.style.display = trackResult.style.display = errorMsg.style.display = "none";
+    copyArea.style.display = 'none';
+  };
+  
+  document.getElementById('showTrackTab').onclick = () => {
+    orderForm.style.display = 'none';
+    trackForm.style.display = 'block';
+    document.getElementById('showOrderTab').classList.remove('active');
+    document.getElementById('showTrackTab').classList.add('active');
+    orderMsg.style.display = trackResult.style.display = errorMsg.style.display = "none";
+    copyArea.style.display = 'none';
+  };
+  
+  orderForm.onsubmit = async (e) => {
     e.preventDefault();
-    hideError();
-    responseMsg.style.display = 'none';
-    spinner.style.display = 'block';
-    processingBar.style.display = 'block';
-
+    errorMsg.style.display = orderMsg.style.display = "none";
+    
+    const previousOrder = JSON.parse(localStorage.getItem("orderData") || "{}");
+    const now = Date.now();
+    
+    // التحقق من مرور 15 دقيقة (900000 ملي ثانية)
+    if (previousOrder.timestamp && now - previousOrder.timestamp < 15 * 60 * 1000) {
+      const remaining = 15 * 60 * 1000 - (now - previousOrder.timestamp);
+      const minutes = Math.floor(remaining / 60000);
+      const seconds = Math.floor((remaining % 60000) / 1000);
+      errorMsg.textContent = `⏳ يجب الانتظار ${minutes} دقيقة و ${seconds} ثانية قبل إرسال طلب جديد.`;
+      errorMsg.style.display = "block";
+      return;
+    }
+    
+    spinner.style.display = "block";
+    
     const name = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const device = document.getElementById('device').value.trim();
-
-    if (!name || !phone.match(/^05[0-9]{8}$/)) {
-      showError("⚠️ تأكد من إدخال الاسم ورقم الجوال بشكل صحيح.");
-      return;
-    }
-
+    const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+    const timestamp = now;
+    
     const payload = {
       content: null,
-      embeds: [
-        {
-          title: "طلب جديد من الموقع",
-          color: 7506394,
-          fields: [
-            { name: "الاسم", value: name, inline: true },
-            { name: "رقم الجوال", value: phone, inline: true },
-            { name: "اسم الجهاز", value: device, inline: true },
-          ],
-          timestamp: new Date().toISOString()
-        }
-      ]
+      embeds: [{
+        title: "طلب جديد",
+        color: 7506394,
+        fields: [
+          { name: "الاسم", value: name, inline: true },
+          { name: "رقم الجوال", value: phone, inline: true },
+          { name: "اسم الجهاز", value: device, inline: true },
+          { name: "كود الطلب", value: code, inline: true }
+        ],
+        timestamp: new Date().toISOString()
+      }]
     };
-
+    
     try {
-      const response = await fetch(webhookURL, {
+      const res = await fetch("https://discord.com/api/webhooks/1378768286178742432/08gieZ8nof2XPyIJ_AQmVleQl17tBuxwj6WGhQGbl_TayVPMghWfeSjugt8lHQCIidkm", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-
-      if (response.ok) {
-        localStorage.setItem("orderSentTime", Date.now().toString());
-        localStorage.setItem("orderName", name);
-        localStorage.setItem("orderPhone", phone);
-        localStorage.setItem("orderDevice", device);
-
+      
+      if (res.ok) {
+        localStorage.setItem("orderData", JSON.stringify({ name, phone, code, timestamp }));
+        spinner.style.display = "none";
+        successAnimation.style.display = "block";
         setTimeout(() => {
-          orderForm.style.display = 'none';
-          spinner.style.display = 'none';
-          processingBar.style.display = 'none';
-
-          successAnimation.innerHTML = `
-            <div class="checkmark-circle">
-              <div class="checkmark"></div>
-              <div class="sparkles"></div>
-            </div>
-            <p class="success-text">✅ تم استلام الطلب</p>
-            <p class="success-text">🔒 تم حفظ كود تتبع الطلب! يمكنك الاستعلام لاحقًا.</p>
-          `;
-          successAnimation.style.display = 'block';
-        }, 3000);
+          successAnimation.style.display = "none";
+          orderMsg.textContent = `✅ تم استلام طلبك بنجاح! كود الطلب هو: ${code}`;
+          orderMsg.style.display = "block";
+          copyArea.style.display = "block";
+          copyArea.setAttribute("data-code", code);
+        }, 2500);
       } else {
-        setTimeout(() => {
-          showError("🚫 حدث خطأ أثناء إرسال الطلب. الرجاء المحاولة لاحقًا.");
-        }, 10000);
+        spinner.style.display = "none";
+        errorMsg.textContent = "🚫 حدث خطأ أثناء الإرسال، حاول لاحقاً.";
+        errorMsg.style.display = "block";
       }
-    } catch (error) {
-      setTimeout(() => {
-        showError("🚫 فشل الاتصال بالخادم. تحقق من الإنترنت.");
-      }, 10000);
+    } catch {
+      spinner.style.display = "none";
+      errorMsg.textContent = "🚫 فشل الاتصال بالخادم، تحقق من الإنترنت.";
+      errorMsg.style.display = "block";
     }
-  });
+  };
+  
+  trackForm.onsubmit = (e) => {
+    e.preventDefault();
+    trackResult.style.display = "none";
+    
+    const data = JSON.parse(localStorage.getItem("orderData") || "{}");
+    const name = document.getElementById("trackName").value.trim();
+    const phone = document.getElementById("trackPhone").value.trim();
+    const code = document.getElementById("trackCode").value.trim();
+    
+    if (data.name === name && data.phone === phone && data.code === code) {
+      const elapsed = Date.now() - data.timestamp;
+      let status = "📦 الطلب قيد المعالجة";
+      
+      if (elapsed >= 4 * 3600000) status = "✅ تم إنهاء الطلب";
+      else if (elapsed >= 3 * 3600000) status = "📱 تم فتح الطلب";
+      else if (elapsed >= 2 * 3600000) status = "🚀 الطلب قيد التنفيذ";
+      
+      trackResult.textContent = `مرحباً ${name}، حالة طلبك: ${status}`;
+      trackResult.classList.remove("error");
+      trackResult.classList.add("success");
+      trackResult.style.display = "block";
+    } else {
+      trackResult.textContent = "🚫 لا يوجد طلب مطابق للمعلومات المدخلة.";
+      trackResult.classList.remove("success");
+      trackResult.classList.add("error");
+      trackResult.style.display = "block";
+    }
+  };
+  
+  function copyCode() {
+    const code = copyArea.getAttribute("data-code");
+    navigator.clipboard.writeText(code).then(() => {
+      alert("✅ تم نسخ كود الطلب!");
+    });
+  }
 </script>
-
 </body>
 </html>
