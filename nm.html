@@ -101,7 +101,6 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* ✅ success circle style */
     #successAnimation {
       display: none;
       text-align: center;
@@ -155,21 +154,19 @@
       color: #888;
       font-size: 0.9em;
     }
-    
-   .success-text {
-  margin-top: 15px;
-  font-size: 1.3em;
-  font-weight: bold;
-  color: #3B0A77;
-  animation: fadeIn 1s ease-in;
-}
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-} 
-    
-    
+    .success-text {
+      margin-top: 15px;
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #3B0A77;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
@@ -204,7 +201,7 @@
   <div id="errorMsg" role="alert" aria-live="assertive"></div>
 
   <script>
-    const webhookURL = "https://discord.com/api/webhooks/1378768286178742432/08gieZ8nof2XPyIJ_AQmVleQl17tBuxwj6WGhQGbl_TayVPMghWfeSjugt8lHQCIidkm";
+    const googleScriptURL = "https://script.google.com/macros/s/AKfycbxgNGX3lTz_cRCTuHO74PoalVoIOc0TJXRsUfxHP7c-NWB828cye_ZaBj0eEmWE8aq8xQ/exec";
 
     const orderForm = document.getElementById('orderForm');
     const responseMsg = document.getElementById('responseMsg');
@@ -242,27 +239,19 @@
         return;
       }
 
-      const payload = {
-        content: null,
-        embeds: [
-          {
-            title: "طلب جديد من الموقع",
-            color: 7506394,
-            fields: [
-              { name: "الاسم", value: name, inline: true },
-              { name: "رقم الجوال", value: phone, inline: true },
-              { name: "اسم الجهاز", value: device, inline: true },
-            ],
-            timestamp: new Date().toISOString()
-          }
-        ]
-      };
+      spinner.style.display = 'block';
 
       try {
-        const response = await fetch(webhookURL, {
+        const response = await fetch(googleScriptURL, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: name,
+            phone: phone,
+            device: device
+          })
         });
 
         if (response.ok) {
@@ -290,3 +279,9 @@
 
 </body>
 </html>
+
+
+
+
+
+
