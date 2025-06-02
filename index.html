@@ -294,6 +294,133 @@
 </head>
 <body>
 
+
+
+
+<!-- إشعارات وهمية -->
+<style>
+  .fake-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #e6f9ee;
+    color: #1a472a;
+    padding: 14px 18px;
+    border-radius: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+    font-family: 'Arial', sans-serif;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.5s ease-in-out;
+  }
+  
+  .fake-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .fake-notification-icon {
+    background-color: #1a472a;
+    color: white;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+</style>
+
+<div class="fake-notification" id="fakeNotification">
+  <div class="fake-notification-icon">📢</div>
+  <div id="notificationText"></div>
+</div>
+
+<audio id="notificationSound" preload="auto">
+  <source src="https://assets.mixkit.co/sfx/preview/mixkit-interface-hint-notification-911.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const notifications = [
+    "👤 عميل من <strong>جدة</strong> طلب قبل دقائق – <strong>أسرع واطلب الآن!</strong>",
+    "📱 شخص من <strong>الرياض</strong> حجز آيفون 15 قبل لحظات!",
+    "🕒 عميل من <strong>الدمام</strong> أنهى الطلب قبل دقيقة فقط!",
+    "🚚 طلب جديد من <strong>مكة</strong> قيد التجهيز!",
+    "💳 تم قبول طلب تقسيط من <strong>أبها</strong> الآن!",
+    "🔥 عميل من <strong>المدينة</strong> حصل على عرض خاص!",
+    "🎉 شخص من <strong>تبوك</strong> اشترى آيفون بالتقسيط!"
+  ];
+  
+  const notificationEl = document.getElementById("fakeNotification");
+  const notificationText = document.getElementById("notificationText");
+  const notificationSound = document.getElementById("notificationSound");
+  
+  function showFakeNotification(playSound = false) {
+    const usedIndexes = JSON.parse(localStorage.getItem("usedNotificationIndexes")) || [];
+    
+    // اختار إشعار لم يُعرض من قبل
+    let index;
+    const availableIndexes = notifications
+      .map((_, i) => i)
+      .filter(i => !usedIndexes.includes(i));
+    
+    if (availableIndexes.length === 0) {
+      localStorage.removeItem("usedNotificationIndexes"); // نعيد التدوير
+      index = Math.floor(Math.random() * notifications.length);
+    } else {
+      index = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
+    }
+    
+    const message = notifications[index];
+    usedIndexes.push(index);
+    localStorage.setItem("usedNotificationIndexes", JSON.stringify(usedIndexes));
+    
+    notificationText.innerHTML = message;
+    notificationEl.classList.add("show");
+    
+    if (playSound) {
+      notificationSound.play().catch(() => {}); // بدون خطأ لو رفض المتصفح
+    }
+    
+    setTimeout(() => {
+      notificationEl.classList.remove("show");
+    }, 6000);
+  }
+  
+  // أول إشعار بعد 8 ثواني
+  setTimeout(() => {
+    const alreadyShown = localStorage.getItem("firstNotificationShown");
+    if (!alreadyShown) {
+      showFakeNotification(true); // أول إشعار + صوت
+      localStorage.setItem("firstNotificationShown", "true");
+    } else {
+      showFakeNotification(false);
+    }
+    
+    setInterval(() => {
+      showFakeNotification(false);
+    }, 20000);
+  }, 8000);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- Loader -->
 <div id="loader"><div></div></div>
 
