@@ -8,7 +8,7 @@
   <style>
     body {
       font-family: 'Almarai', sans-serif;
-      background: #f9f9fb url('https://www.transparenttextures.com/patterns/symphony.png');
+      background: #f9f9fb;
       color: #222;
       padding: 20px;
       max-width: 400px;
@@ -92,7 +92,7 @@
       width: 50px;
       height: 50px;
       animation: spin 1s linear infinite;
-      margin: 30px auto;
+      margin: 20px auto;
       display: none;
     }
 
@@ -101,7 +101,15 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* ✅ success circle style */
+    #processingBar {
+      display: none;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.1em;
+      color: #3b0a77;
+      margin-top: 20px;
+    }
+
     #successAnimation {
       display: none;
       text-align: center;
@@ -149,34 +157,32 @@
       50% { opacity: 1; }
     }
 
+    .success-text {
+      margin-top: 15px;
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #3B0A77;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     footer {
       text-align: center;
       margin-top: 40px;
       color: #888;
       font-size: 0.9em;
     }
-    
-   .success-text {
-  margin-top: 15px;
-  font-size: 1.3em;
-  font-weight: bold;
-  color: #3B0A77;
-  animation: fadeIn 1s ease-in;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-} 
-    
-    
   </style>
 </head>
 <body>
 
-  <h1>طلب</h1>
+  <h1>طلب iPhone</h1>
 
-  <form id="orderForm" aria-label="نموذج طلب الجهاز">
+  <form id="orderForm">
     <label for="name">الاسم:</label>
     <input type="text" id="name" name="name" placeholder="ادخل اسمك" required />
 
@@ -189,104 +195,133 @@
     <button type="submit">أرسل الطلب</button>
   </form>
 
+  <div id="processingBar">⏳ جاري معالجة الطلب...</div>
   <div id="spinner" class="spinner"></div>
 
-  <div id="successAnimation">
-    <div class="checkmark-circle">
-      <div class="background"></div>
-      <div class="checkmark"></div>
-      <div class="sparkles"></div>
-    </div>
-    <p class="success-text">تم بنجاح ✅</p>
-  </div>
+  <div id="successAnimation"></div>
 
   <div id="responseMsg" role="alert" aria-live="polite"></div>
   <div id="errorMsg" role="alert" aria-live="assertive"></div>
 
-  <script>
-    const webhookURL = "https://discord.com/api/webhooks/1378768286178742432/08gieZ8nof2XPyIJ_AQmVleQl17tBuxwj6WGhQGbl_TayVPMghWfeSjugt8lHQCIidkm";
-
-    const orderForm = document.getElementById('orderForm');
-    const responseMsg = document.getElementById('responseMsg');
-    const errorMsg = document.getElementById('errorMsg');
-    const spinner = document.getElementById('spinner');
-    const successAnimation = document.getElementById('successAnimation');
-
-    function showError(message) {
-      errorMsg.textContent = message;
-      errorMsg.style.display = 'block';
-      responseMsg.style.display = 'none';
-      spinner.style.display = 'none';
-      successAnimation.style.display = 'none';
-    }
-
-    function hideError() {
-      errorMsg.style.display = 'none';
-    }
-
-    orderForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      hideError();
-
-      const name = document.getElementById('name').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const device = document.getElementById('device').value.trim();
-
-      if (!name) {
-        showError("⚠️ الرجاء إدخال الاسم بشكل صحيح.");
-        return;
-      }
-
-      if (!phone.match(/^05[0-9]{8}$/)) {
-        showError("⚠️ رقم الجوال غير صحيح. تأكد أنه يبدأ بـ 05 ويتكون من 10 أرقام.");
-        return;
-      }
-
-      const payload = {
-        content: null,
-        embeds: [
-          {
-            title: "طلب جديد من الموقع",
-            color: 7506394,
-            fields: [
-              { name: "الاسم", value: name, inline: true },
-              { name: "رقم الجوال", value: phone, inline: true },
-              { name: "اسم الجهاز", value: device, inline: true },
-            ],
-            timestamp: new Date().toISOString()
-          }
-        ]
-      };
-
-      try {
-        const response = await fetch(webhookURL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        if (response.ok) {
-          orderForm.style.display = 'none';
-          spinner.style.display = 'none';
-          successAnimation.style.display = 'block';
-
-          setTimeout(() => {
-            successAnimation.style.display = 'none';
-            responseMsg.textContent = "✅ تم استلام الطلب، سيتم التواصل معك قريبًا.";
-            responseMsg.style.display = 'block';
-          }, 2500);
-        } else {
-          showError("🚫 حدث خطأ أثناء إرسال الطلب. الرجاء المحاولة لاحقًا.");
-        }
-      } catch (error) {
-        showError("🚫 فشل الاتصال بالخادم. تحقق من اتصالك بالإنترنت وحاول مجددًا.");
-      }
-    });
-  </script>
-
   <footer>
     جميع الحقوق محفوظة &copy; 4STORE - <span dir="ltr">2025</span>
   </footer>
+
+<script>
+  const webhookURL = "https://discord.com/api/webhooks/1378768286178742432/08gieZ8nof2XPyIJ_AQmVleQl17tBuxwj6WGhQGbl_TayVPMghWfeSjugt8lHQCIidkm";
+
+  const orderForm = document.getElementById('orderForm');
+  const responseMsg = document.getElementById('responseMsg');
+  const errorMsg = document.getElementById('errorMsg');
+  const spinner = document.getElementById('spinner');
+  const processingBar = document.getElementById('processingBar');
+  const successAnimation = document.getElementById('successAnimation');
+
+  const MS_IN_24_HOURS = 86400000;
+
+  function formatRemainingTime(ms) {
+    const hours = Math.floor(ms / (1000 * 60 * 60));
+    const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours} ساعة و ${minutes} دقيقة`;
+  }
+
+  function showError(message) {
+    errorMsg.textContent = message;
+    errorMsg.style.display = 'block';
+    responseMsg.style.display = 'none';
+    spinner.style.display = 'none';
+    successAnimation.style.display = 'none';
+    processingBar.style.display = 'none';
+  }
+
+  function hideError() {
+    errorMsg.style.display = 'none';
+  }
+
+  const lastSentTime = localStorage.getItem("orderSentTime");
+  if (lastSentTime) {
+    const now = Date.now();
+    const timeDiff = now - parseInt(lastSentTime);
+    if (timeDiff < MS_IN_24_HOURS) {
+      const remaining = MS_IN_24_HOURS - timeDiff;
+      const timeText = formatRemainingTime(remaining);
+      orderForm.style.display = 'none';
+      showError(`🚫 لقد أرسلت الطلب مسبقًا، يمكنك إعادة الإرسال بعد: ${timeText}`);
+    }
+  }
+
+  orderForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    hideError();
+    responseMsg.style.display = 'none';
+    spinner.style.display = 'block';
+    processingBar.style.display = 'block';
+
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const device = document.getElementById('device').value.trim();
+
+    if (!name || !phone.match(/^05[0-9]{8}$/)) {
+      showError("⚠️ تأكد من إدخال الاسم ورقم الجوال بشكل صحيح.");
+      return;
+    }
+
+    const payload = {
+      content: null,
+      embeds: [
+        {
+          title: "طلب جديد من الموقع",
+          color: 7506394,
+          fields: [
+            { name: "الاسم", value: name, inline: true },
+            { name: "رقم الجوال", value: phone, inline: true },
+            { name: "اسم الجهاز", value: device, inline: true },
+          ],
+          timestamp: new Date().toISOString()
+        }
+      ]
+    };
+
+    try {
+      const response = await fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        localStorage.setItem("orderSentTime", Date.now().toString());
+        localStorage.setItem("orderName", name);
+        localStorage.setItem("orderPhone", phone);
+        localStorage.setItem("orderDevice", device);
+
+        setTimeout(() => {
+          orderForm.style.display = 'none';
+          spinner.style.display = 'none';
+          processingBar.style.display = 'none';
+
+          successAnimation.innerHTML = `
+            <div class="checkmark-circle">
+              <div class="checkmark"></div>
+              <div class="sparkles"></div>
+            </div>
+            <p class="success-text">✅ تم استلام الطلب</p>
+            <p class="success-text">🔒 تم حفظ كود تتبع الطلب! يمكنك الاستعلام لاحقًا.</p>
+          `;
+          successAnimation.style.display = 'block';
+        }, 3000);
+      } else {
+        setTimeout(() => {
+          showError("🚫 حدث خطأ أثناء إرسال الطلب. الرجاء المحاولة لاحقًا.");
+        }, 10000);
+      }
+    } catch (error) {
+      setTimeout(() => {
+        showError("🚫 فشل الاتصال بالخادم. تحقق من الإنترنت.");
+      }, 10000);
+    }
+  });
+</script>
 
 </body>
 </html>
