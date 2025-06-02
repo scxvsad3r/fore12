@@ -1,95 +1,689 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>سنوفك | جاري الصيانة</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Almarai&display=swap');
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4 STORE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet" />
+  
+  
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Almarai', sans-serif;
-      background-color: #f4f6f9;
-      color: #1c1c1c;
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4 STORE </title>
+  <link rel="icon" href="https://4-store.netlify.app/83.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet" />
+  <meta name="description" content="احصل على iPhone 16 Pro Max بالتقسيط الفوري وبدون دفعة أولى من إمكان عبر متجر 4 STORE." />
+  <meta name="keywords" content="iPhone تقسيط, إمكان, فور ستور, تمويل فوري, بدون كفيل" />
+  <meta property="og:title" content="iPhone بالتقسيط عبر 4 STORE × إمكان" />
+  <meta property="og:description" content="تمويل فوري من إمكان وبدون كفيل على أحدث أجهزة iPhone." />
+  <meta property="og:image" content="https://4-store.netlify.app/vb.png" />
+  <meta property="og:url" content="#" />
+  <style>
+    /* Loader */
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #3b0a77;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      z-index: 9999;
+    }
+    #loader div {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #ffd700;
+      border-top: 4px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    body {
+      margin: 0;
+      font-family: 'Almarai', sans-serif;
+      background: #f9f9fb url('https://www.transparenttextures.com/patterns/symphony.png');
+      background-repeat: repeat;
+      color: #222;
+    }
+    /* Golden top bar */
+    .top-bar {
+      background: #ffd700;
+      color: #3b0a77;
+      text-align: center;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 1.1em;
+      font-family: 'Almarai', sans-serif;
+    }
+    .top-bar span {
+      text-decoration: underline;
+      cursor: default;
+    }
+
+    header {
+      background: #3b0a77;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .site-title {
+      font-size: 1.6em;
+      font-weight: bold;
+    }
+    .site-title span {
+      color: #ffd700;
+    }
+    .logo {
+      height: 40px;
+    }
+    nav {
+      background: white;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    nav a {
+      margin: 0 10px;
+      color: #3b0a77;
+      font-weight: bold;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #8c3aff;
+    }
+    .hero {
+      background: linear-gradient(135deg, #3b0a77, #8c3aff);
+      color: white;
+      padding: 50px 20px;
       text-align: center;
     }
-
-    .container {
-      max-width: 700px;
-      padding: 40px;
-      background: #ffffff;
-      border: 1px solid #dfe3e8;
-      border-radius: 12px;
-      box-shadow: 0 0 30px rgba(0,0,0,0.05);
-    }
-
-    .logo {
-      max-width: 120px;
-      margin-bottom: 20px;
-    }
-
-    .engineer-img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 10px;
-      margin: 20px 0;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    }
-
-    h1 {
-      font-size: 2.4rem;
+    .hero h1 {
+      font-size: 2.2em;
       margin-bottom: 15px;
-      color: #003366;
+      font-weight: 900;
+      letter-spacing: 1.2px;
     }
-
-    p {
-      font-size: 1.2rem;
-      color: #444;
+    .hero p {
+      font-size: 1.3em;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+    }
+    .section {
+      padding: 40px 20px;
+      text-align: center;
+    }
+    /* Offer box with ribbon */
+    .offer-box {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 25px;
+      max-width: 600px;
+      margin: auto;
+      border: 2px solid #eee;
+      position: relative;
+    }
+    .ribbon {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #ffd700;
+      color: #3b0a77;
+      padding: 8px 15px;
+      font-weight: bold;
+      font-size: 0.9em;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      font-family: 'Almarai', sans-serif;
+    }
+    .offer-box img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(140,58,255,0.25);
+      transition: transform 0.3s ease;
+    }
+    .offer-box img:hover {
+      transform: scale(1.05);
+    }
+    .offer-box h2 {
+      color: #3b0a77;
+      margin: 20px 0 10px;
+      font-weight: 900;
+    }
+    .offer-box p {
+      font-size: 1.1em;
+      font-weight: 600;
+      color: #555;
+    }
+    .highlights {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #3b0a77;
+      font-size: 1.1em;
+    }
+    .whatsapp-button {
+      display: inline-block;
+      margin-top: 25px;
+      background: linear-gradient(90deg, #25D366, #128C7E);
+      color: white;
+      padding: 15px 35px;
+      border-radius: 50px;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-decoration: none;
+      animation: pulse 2.5s infinite;
+      box-shadow: 0 0 15px rgba(0,0,0,0.15);
+      transition: box-shadow 0.3s ease;
+    }
+    .whatsapp-button:hover {
+      box-shadow: 0 0 25px #25D366;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    .testimonials {
+      background: #fff7e6;
+      padding: 40px 20px;
+      text-align: right;
+    }
+    .testimonials h2 {
+      color: #3b0a77;
+      text-align: center;
       margin-bottom: 30px;
-      line-height: 1.8;
+      font-weight: 900;
+      letter-spacing: 1px;
     }
-
-    .loader {
+    .testimonial-box {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      max-width: 600px;
+      margin: 20px auto;
+      background: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transition: box-shadow 0.3s ease;
+    }
+    .testimonial-box:hover {
+      box-shadow: 0 8px 20px rgba(140,58,255,0.3);
+    }
+    .testimonial-box img {
+      border-radius: 50%;
       width: 50px;
       height: 50px;
-      margin: 0 auto 30px;
-      border: 5px solid #ccc;
-      border-top: 5px solid #003366;
-      border-radius: 50%;
-      animation: spin 1.2s linear infinite;
+      border: 2px solid #8c3aff;
     }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg);}
-      100% { transform: rotate(360deg);}
+    .testimonial-box p {
+      margin: 5px 0;
+      font-weight: 600;
     }
-
+    .testimonial-box small {
+      color: gray;
+      font-size: 0.85em;
+    }
     footer {
-      font-size: 0.9rem;
-      color: #888;
-      margin-top: 30px;
+      background: #3b0a77;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 0.9em;
+      font-weight: 600;
+    }
+
+    /* New section for trust logos */
+    .trust-section {
+      background: #fdf8f2;
+      padding: 40px 20px;
+      text-align: center;
+      color: #3b0a77;
+      font-weight: 700;
+      font-family: 'Almarai', sans-serif;
+    }
+    .trust-section h2 {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+      font-weight: 900;
+    }
+    .trust-section p {
+      max-width: 600px;
+      margin: 0 auto 25px;
+      font-weight: 600;
+      font-size: 1.1em;
+    }
+    .trust-logos {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .trust-logos img {
+      max-height: 60px;
+      filter: drop-shadow(0 0 2px rgba(0,0,0,0.1));
+      transition: transform 0.3s ease;
+      cursor: default;
+    }
+    .trust-logos img:hover {
+      transform: scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .testimonial-box {
+        flex-direction: column;
+        text-align: center;
+      }
+      .trust-logos {
+        gap: 25px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="83.png" alt="شعار رسمي" class="logo" />
-    <h1>جاري الصيانة</h1>
-    <div class="loader"></div>
-    <p>
-      نعمل حاليًا على صيانة وتحديث أنظمتنا لضمان أفضل أداء.<br>
-      نشكر لكم تفهمكم وثقتكم الدائمة.
-    </p>
-    <img src="https://www.ar-wp.com/wp-content/uploads/2021/10/website-6700615_1280-1024x732.png" alt="مهندس يعمل على النظام" class="engineer-img" />
-    <footer>
-      © 2025 شركة سنوفك | جميع الحقوق محفوظة
-    </footer>
+
+
+
+
+<!-- إشعارات وهمية -->
+<style>
+  .fake-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #e6f9ee;
+    color: #1a472a;
+    padding: 14px 18px;
+    border-radius: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+    font-family: 'Arial', sans-serif;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.5s ease-in-out;
+  }
+  
+  .fake-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .fake-notification-icon {
+    background-color: #1a472a;
+    color: white;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+</style>
+
+<div class="fake-notification" id="fakeNotification">
+  <div class="fake-notification-icon">📢</div>
+  <div id="notificationText"></div>
+</div>
+
+<audio id="notificationSound" preload="auto">
+  <source src="https://assets.mixkit.co/sfx/preview/mixkit-interface-hint-notification-911.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const notifications = [
+    "👤 عميل من <strong>جدة</strong> طلب قبل دقائق – <strong>أسرع واطلب الآن!</strong>",
+    "📱 شخص من <strong>الرياض</strong> حجز آيفون 15 قبل لحظات!",
+    "🕒 عميل من <strong>الدمام</strong> أنهى الطلب قبل دقيقة فقط!",
+    "🚚 طلب جديد من <strong>مكة</strong> قيد التجهيز!",
+    "💳 تم قبول طلب تقسيط من <strong>أبها</strong> الآن!",
+    "🔥 عميل من <strong>المدينة</strong> حصل على عرض خاص!",
+    "🎉 شخص من <strong>تبوك</strong> اشترى آيفون بالتقسيط!"
+  ];
+  
+  const notificationEl = document.getElementById("fakeNotification");
+  const notificationText = document.getElementById("notificationText");
+  const notificationSound = document.getElementById("notificationSound");
+  
+  function showFakeNotification(playSound = false) {
+    const usedIndexes = JSON.parse(localStorage.getItem("usedNotificationIndexes")) || [];
+    
+    // اختار إشعار لم يُعرض من قبل
+    let index;
+    const availableIndexes = notifications
+      .map((_, i) => i)
+      .filter(i => !usedIndexes.includes(i));
+    
+    if (availableIndexes.length === 0) {
+      localStorage.removeItem("usedNotificationIndexes"); // نعيد التدوير
+      index = Math.floor(Math.random() * notifications.length);
+    } else {
+      index = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
+    }
+    
+    const message = notifications[index];
+    usedIndexes.push(index);
+    localStorage.setItem("usedNotificationIndexes", JSON.stringify(usedIndexes));
+    
+    notificationText.innerHTML = message;
+    notificationEl.classList.add("show");
+    
+    if (playSound) {
+      notificationSound.play().catch(() => {}); // بدون خطأ لو رفض المتصفح
+    }
+    
+    setTimeout(() => {
+      notificationEl.classList.remove("show");
+    }, 6000);
+  }
+  
+  // أول إشعار بعد 8 ثواني
+  setTimeout(() => {
+    const alreadyShown = localStorage.getItem("firstNotificationShown");
+    if (!alreadyShown) {
+      showFakeNotification(true); // أول إشعار + صوت
+      localStorage.setItem("firstNotificationShown", "true");
+    } else {
+      showFakeNotification(false);
+    }
+    
+    setInterval(() => {
+      showFakeNotification(false);
+    }, 20000);
+  }, 8000);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Loader -->
+<div id="loader"><div></div></div>
+
+<!-- Top gold bar -->
+<div class="top-bar">
+  🔒 تمويل رسمي معتمد من <span>إمكان</span> – بدون دفعة أولى أو كفيل
+</div>
+
+<header>
+    <div class="site-title">4 <span> STORE</span> × إمكان</div>
+  <img src="https://4-store.netlify.app/83.png" alt="4 STORE Logo" class="logo" />
+</header>
+
+<nav>
+  <a href="#offers">العروض</a>
+  <a href="#trust">لماذا 4 ستور؟</a>
+  <a href="nn.html">مزايا حصرية</a> 
+  <a href="#testimonials">آراء العملاء</a>
+  <a href="#contact">تواصل معنا</a>
+</nav>
+
+<section class="hero">
+  <h1>احصل على  جوالك   بالتقسيط الفوري</h1>
+  <p>بدون دفعة أولى وبدون كفيل عبر إمكان - تمويل سريع وآمن</p>
+</section>
+
+<section class="section offer-box" id="offers">
+  <div class="ribbon">عرض خاص</div>
+  <img src="vb.png" alt="iPhone 16 Pro Max" />
+  <h2>iPhone 16 Pro Max</h2>
+  <p>احصل على أحدث أجهزة iPhone بالتقسيط مع إمكان، بدون عناء، بدون تعقيدات.</p>
+  <div class="highlights">تمويل فوري - بدون كفيل - 5 شهر تقسيط</div>
+  <a
+    href="nm.html"
+
+    rel="noopener"
+    class="whatsapp-button"
+    aria-label="اتصل بنا عبر واتساب"
+    >اطلب الآن  </a
+  >
+</section>
+
+<section class="trust-section" id="trust">
+  <h2>لماذا  4ستور ؟</h2>
+  <p>ثقة، سرعة، سهولة، وأمان في تمويلك لشراء الأجهزة الإلكترونية بدون تعقيد.</p>
+  <div class="trust-logos" aria-label="شعارات شركات وشركاء">
+    <img src="emkan-logo.png" alt="شعار إمكان" />
+    <img src="bank1-logo.png" alt="شعار البنك 1" />
+    <img src="bank2-logo.png" alt="شعار البنك 2" />
+    <img src="security-logo.png" alt="شعار الأمان" />
   </div>
+</section>
+<section class="testimonials" id="testimonials" aria-label="آراء العملاء">
+  <h2>آراء عملائنا</h2>
+  
+  <div class="testimonial-box" role="article">
+    <img src="client1.jpg" alt="صورة العميل 1" />
+    <div>
+      <p>خدمة ممتازة وسريعة، ساعدوني كثيراً في شراء الآيفون بدون تعقيدات.</p>
+      <small>– أحمد سلطان، حائل</small>
+    </div>
+  </div>
+  
+  <div class="testimonial-box" role="article">
+    <img src="client2.jpg" alt="صورة العميل 2" />
+    <div>
+      <p>تمويل آمن وسهل، أنصح الجميع بالتعامل مع 4 STORE وإمكان.</p>
+      <small>– نورة، حائل</small>
+    </div>
+  </div>
+  
+  <div class="testimonial-box" role="article">
+    <img src="client3.jpg" alt="صورة العميل 3" />
+    <div>
+      <p>فريق متعاون، وتمويل سريع بدون تعقيد. استلمت الجهاز خلال يومين فقط.</p>
+      <small>– طلال سلطان، حائل</small>
+    </div>
+  </div>
+
+  <div class="testimonial-box" role="article">
+    <img src="client4.jpg" alt="صورة العميل 4" />
+      <p>طريقة التقديم كانت سهلة جداً من خلال الواتساب، شكراً لكم.</p>
+      <small>– سارة محمد، حائل</small>
+    
+        <!--Tab to edit-->
+      </div>
+        <!-- Original -->
+  <div class="testimonial-box">
+    <img src="client1.jpg" alt="صورة العميل 1" />
+    <div>
+      <p>خدمة ممتازة وسريعة، ساعدوني كثيراً في شراء الآيفون بدون تعقيدات.</p>
+      <small>– أحمد خالد، حائل</small>
+    </div>
+  </div>
+  
+  <div class="testimonial-box">
+    <img src="client2.jpg" alt="صورة العميل 2" />
+    <div>
+      <p>تمويل آمن وسهل، أنصح الجميع بالتعامل مع 4 STORE وإمكان.</p>
+      <small>– وايل يزيد، حائل</small>
+    </div>
+  </div>
+  
+  <div class="testimonial-box">
+    <img src="client3.jpg" alt="صورة العميل 3" />
+    <div>
+      <p>فريق متعاون، وتمويل سريع بدون تعقيد. استلمت الجهاز خلال يومين فقط.</p>
+      <small>– فهد الشمري ، حائل</small>
+    </div>
+  </div>
+  
+  <div class="testimonial-box">
+    <img src="client4.jpg" alt="صورة العميل 4" />
+    <div>
+      <p>طريقة التقديم كانت سهلة جداً من خلال  الموقع، شكراً لكم.</p>
+      <small>– ليان اليافعي، حائل</small>
+    </div>
+  </div>
+  
+  <!-- New -->
+  <div class="testimonial-box">
+    <img src="client5.jpg" alt="صورة العميل 5" />
+    <div>
+      <p>تجربة رائعة وسهولة تامة في الإجراءات، أوصي به للجميع.</p>
+      <small>– لمياء الناصر، الرياض</small>
+    </div>
+  </div>
+  
+  <div class="testimonial-box">
+    <img src="client6.jpg" alt="صورة العميل 6" />
+    <div>
+      <p>خدمة عملاء متميزة واستلام الجهاز بس تاخرو شوية جلس تقريبا اسبوع  !</p>
+      <small>– ماجد القحطاني، جدة</small>
+    </div>
+  </div>
+  
+  <div class="testimonial-box">
+    <img src="client7.jpg" alt="صورة العميل 7" />
+    <div>
+      <p>أفضل تجربة تمويل جربتها، شكراً لفريق 4 STORE على الاحترافية.</p>
+      <small>– نوف الشهراني، الدمام</small>
+      
+      
+      
+      
+    </div>
+  </div>
+</section>
+<section class="section" id="contact" style="text-align: center;">
+  <p>هل لديك أي استفسار؟ نحن هنا لمساعدتك على مدار الساعة.</p>
+  <a href="https://wa.me/966554866561" target="_blank" rel="noopener" class="whatsapp-button" aria-label="تواصل معنا عبر واتساب">اتصل بنا الآن</a>
+
+</section>
+
+
+<script>
+  // Loader fade out
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('loader');
+    loader.style.opacity = '0';
+    setTimeout(() => {
+      loader.style.display = 'none';
+    }, 500);
+  });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Almarai', sans-serif;
+      background: #f9f9fb;
+      color: #222;
+      transition: background 0.3s, color 0.3s;
+    }
+    .dark-mode {
+      background: #121212 !important;
+      color: #f1f1f1 !important;
+    }
+    .dark-mode .top-bar,
+    .dark-mode header,
+    .dark-mode footer {
+      background: #1e1e1e !important;
+      color: #fff !important;
+    }
+    .dark-mode .offer-box,
+    .dark-mode .testimonial-box,
+    .dark-mode .trust-section {
+      background: #1a1a1a !important;
+      color: #f1f1f1 !important;
+      border-color: #333 !important;
+    }
+    .dark-mode nav {
+      background: #2c2c2c !important;
+    }
+    .dark-mode nav a {
+      color: #ffd700 !important;
+    }
+    .dark-toggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 9999;
+      background: #3b0a77;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* FAQ Section */
+    #faq {
+      background: #f1f1f1;
+      padding: 40px 20px;
+      text-align: right;
+    }
+    #faq h2 {
+      color: #3b0a77;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+    #faq p {
+      font-size: 1.1em;
+      margin: 10px 0;
+      font-weight: 600;
+    }
+    .dark-mode #faq {
+      background: #1e1e1e;
+    }
+  </style>
+</head>
+<body>
+
+
+<!-- باقي الموقع ... -->
+
+<section class="section" id="faq">
+  <h2>الأسئلة الشائعة</h2>
+  <p><strong>هل أحتاج إلى كفيل؟</strong> لا، التمويل متاح بدون كفيل.</p>
+  <p><strong>ما هي مدة التقسيط؟</strong> حتى 5 أشهر.</p>
+  <p><strong>كيف أقدم؟</strong> فقط قدم طلبك عبر الموقع وسنتواصل معك خلال دقائق.
+.</p>
+</section>
+
+<!-- يمكنك إدراج footer وبقية العناصر هنا -->
+
+<script>
+  function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+  }
+</script>
+<footer>
+  &copy; 2025 4 STORE × . جميع الحقوق محفوظة.
+</footer>
+
 </body>
 </html>
