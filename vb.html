@@ -1,141 +1,211 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>لوحة تحكم 4 STOR | Admin Panel</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>4 STORE - طلب iPhone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     body {
-      margin: 0;
-      font-family: 'Cairo', sans-serif;
-      background-color: #0b0b0b;
-      color: #fff;
+      font-family: 'Almarai', sans-serif;
+      background: #f9f9fb url('https://www.transparenttextures.com/patterns/symphony.png');
+      color: #222;
+      padding: 20px;
+      max-width: 400px;
+      margin: 40px auto;
       direction: rtl;
     }
-
-    header {
-      background: #121212;
-      padding: 30px 20px;
-      text-align: center;
-      border-bottom: 2px solid #00ff99;
-    }
-
-    header h1 {
-      font-size: 2.5em;
-      color: #00ff99;
-      margin: 0;
-    }
-
-    .admin-id {
-      text-align: center;
-      margin: 20px 0;
-      color: #0f0;
-      font-size: 1.2em;
-      background: #111;
-      padding: 10px;
-      border: 1px solid #0f0;
-      width: fit-content;
-      margin-inline: auto;
-      border-radius: 8px;
-      box-shadow: 0 0 10px #0f0;
-    }
-
-    .dashboard {
-      max-width: 1000px;
-      margin: 40px auto;
+    h1 { color: #3b0a77; text-align: center; }
+    form {
+      background: white;
       padding: 20px;
-      background: #1c1c1c;
       border-radius: 15px;
-      box-shadow: 0 0 30px rgba(0, 255, 153, 0.1);
-    }
-
-    .dashboard h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #00ffcc;
-      font-size: 1.8em;
-    }
-
-    .card {
-      background: #2a2a2a;
-      padding: 20px;
-      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(140,58,255,0.15);
       margin-bottom: 20px;
-      border: 1px solid #333;
-      box-shadow: 0 0 15px rgba(0,255,204,0.1);
     }
-
-    .card h3 {
-      margin: 0;
-      font-size: 1.2em;
-      color: #fff;
+    label { display: block; margin: 15px 0 5px; font-weight: 700; color: #3b0a77; }
+    input[type="text"], input[type="tel"] {
+      width: 100%; padding: 10px; border-radius: 8px; border: 2px solid #ddd;
+      font-size: 1em; box-sizing: border-box;
     }
-
-    .card p {
-      margin-top: 10px;
-      color: #ccc;
-      font-size: 0.95em;
+    button {
+      margin-top: 25px; width: 100%; padding: 15px;
+      background: linear-gradient(90deg, #25D366, #128C7E);
+      color: white; font-weight: 700; font-size: 1.2em;
+      border: none; border-radius: 50px; cursor: pointer;
+      transition: box-shadow 0.3s ease;
     }
-
-    footer {
-      text-align: center;
-      margin-top: 50px;
-      color: #666;
-      font-size: 0.9em;
-      padding: 20px;
-      border-top: 1px solid #222;
+    button:hover { box-shadow: 0 0 25px #25D366; }
+    #responseMsg, #errorMsg, #linkTrack {
+      margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; display: none;
     }
+    #responseMsg {
+      background: #d4edda; color: #155724; border: 1px solid #c3e6cb;
+    }
+    #errorMsg {
+      background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;
+    }
+    #linkTrack {
+      background: #eef9f3; color: #128C7E; border: 1px solid #c3e6cb;
+    }
+    #linkTrack a {
+      color: #25D366; font-weight: bold; text-decoration: none; margin-left: 10px;
+    }
+    .spinner {
+      border: 5px solid #f3f3f3; border-top: 5px solid #25D366;
+      border-radius: 50%; width: 50px; height: 50px;
+      animation: spin 1s linear infinite; margin: 30px auto; display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #successAnimation { display: none; text-align: center; margin-top: 30px; }
+    .checkmark-circle {
+      margin: 0 auto; width: 100px; height: 100px; background: #3B0A77;
+      border-radius: 50%; display: flex; justify-content: center; align-items: center;
+      animation: pop 0.6s ease-out;
+    }
+    .checkmark { width: 25px; height: 12px; border-left: 4px solid #fff; border-bottom: 4px solid #fff; transform: rotate(-45deg); }
+    @keyframes pop { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    .sparkles::before, .sparkles::after {
+      content: ""; position: absolute; top: -30px; font-size: 14px; color: #aef1dd; animation: twinkle 1.5s infinite;
+    }
+    @keyframes twinkle { 0%,100% { opacity: 0.2; } 50% { opacity: 1; } }
+    .success-text {
+      margin-top: 15px; font-size: 1.3em; font-weight: bold; color: #3B0A77;
+      animation: fadeIn 1s ease-in;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    footer { text-align: center; margin-top: 40px; color: #888; font-size: 0.9em; }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>لوحة تحكم 4 STOR</h1>
-  </header>
+  <h1>طلب iPhone</h1>
 
-  <div class="admin-id">
-    🔐 موضف الادارة: سامر عبدالله  متصل الآن
+  <form id="orderForm" aria-label="نموذج طلب الجهاز">
+    <label for="name">الاسم:</label>
+    <input type="text" id="name" placeholder="ادخل اسمك" required />
+    <label for="phone">رقم الجوال:</label>
+    <input type="tel" id="phone" placeholder="05xxxxxxxx" required pattern="05[0-9]{8}" />
+    <label for="device">اسم الجهاز:</label>
+    <input type="text" id="device" value="iPhone 16 Pro Max" readonly />
+    <button type="submit">أرسل الطلب</button>
+  </form>
+
+  <div id="spinner" class="spinner"></div>
+
+  <div id="successAnimation">
+    <div class="checkmark-circle">
+      <div class="checkmark"></div>
+      <div class="sparkles"></div>
+    </div>
+    <p class="success-text">تم بنجاح ✅</p>
   </div>
 
-  <div class="dashboard">
-    <h2>التحكم الكامل بالأنظمة</h2>
+  <div id="responseMsg" role="alert" aria-live="polite"></div>
+  <div id="errorMsg"   role="alert" aria-live="assertive"></div>
 
-    <div class="card">
-      <h3>عدد الزوار خلال آخر 24 ساعة الماضية</h3>
-      <p>60078 زائر</p>
-    </div>
-
-    <div class="card">
-      <h3>عدد الطلبات الجديدة</h3>
-      <p>127 طلب بانتظار المعالجة</p>
-    </div>
-
-    <div class="card">
-      <h3>الخوادم المتصلة</h3>
-      <p>✔️ Server-01 | ✔️ Server-02 | ✔️ API Node</p>
-    </div>
-
-    <div class="card">
-      <h3>تنبيه أمني</h3>
-      <p>🛡️ تم تسجيل دخول  موضف الادارة سامر من عنوان IP داخلي.</p>
-    </div>
+  <div id="linkTrack">
+    رقم طلبك : <strong id="displayCode"></strong>
+    <a href="vb.html">استعلام</a>
   </div>
 
   <footer>
-    لوحة تحكم وهمية © 4 STOR - جميع الحقوق محفوظة
+    جميع الحقوق محفوظة &copy; 4STORE - <span dir="ltr">2025</span>
   </footer>
 
+  <script>
+    const webhookURL = "https://discord.com/api/webhooks/1378768286178742432/08gieZ8nof2XPyIJ_AQmVleQl17tBuxwj6WGhQGbl_TayVPMghWfeSjugt8lHQCIidkm";
+    const COOLDOWN_MINUTES = 24 * 60; // 1440 دقيقة = 24 ساعة
+
+    const orderForm = document.getElementById('orderForm');
+    const spinner = document.getElementById('spinner');
+    const successAnimation = document.getElementById('successAnimation');
+    const responseMsg = document.getElementById('responseMsg');
+    const errorMsg = document.getElementById('errorMsg');
+    const linkTrack = document.getElementById('linkTrack');
+    const displayCode = document.getElementById('displayCode');
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      errorMsg.style.display = 'block';
+      responseMsg.style.display = successAnimation.style.display = spinner.style.display = linkTrack.style.display = 'none';
+    }
+
+    const previousOrder = JSON.parse(localStorage.getItem("orderData"));
+    if (previousOrder) {
+      const diff = Date.now() - previousOrder.timestamp;
+      const minutesPassed = diff / (1000 * 60);
+
+      if (minutesPassed >= COOLDOWN_MINUTES) {
+        localStorage.removeItem("orderData");
+      } else {
+        orderForm.style.display = 'none';
+        responseMsg.style.display = 'block';
+        const hoursLeft = Math.floor((COOLDOWN_MINUTES - minutesPassed) / 60);
+        const minutesLeft = Math.ceil((COOLDOWN_MINUTES - minutesPassed) % 60);
+        responseMsg.textContent = `⚠️ لقد قمت بإرسال طلب مسبقًا. الرجاء الانتظار ${hoursLeft} ساعة و${minutesLeft} دقيقة.`;
+        displayCode.textContent = previousOrder.code;
+        linkTrack.style.display = 'block';
+      }
+    }
+
+    orderForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      errorMsg.style.display = responseMsg.style.display = linkTrack.style.display = 'none';
+      spinner.style.display = 'block';
+
+      const name   = document.getElementById('name').value.trim();
+      const phone  = document.getElementById('phone').value.trim();
+      const device = document.getElementById('device').value.trim();
+
+      if (!name) { showError("⚠️ الرجاء إدخال الاسم."); return; }
+      if (!phone.match(/^05[0-9]{8}$/)) { showError("⚠️ رقم الجوال غير صحيح."); return; }
+
+      const code = Math.random().toString(36).substr(2,6).toUpperCase();
+      const timestamp = Date.now();
+
+      const payload = {
+        content: null,
+        embeds: [{
+          title: "طلب جديد من الموقع",
+          color: 7506394,
+          fields: [
+            { name:"الاسم", value:name, inline:true },
+            { name:"رقم الجوال", value:phone, inline:true },
+            { name:"اسم الجهاز", value:device, inline:true },
+            { name:"كود الطلب", value:code, inline:true }
+          ],
+          timestamp: new Date().toISOString()
+        }]
+      };
+
+      try {
+        const res = await fetch(webhookURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        spinner.style.display = 'none';
+        if (!res.ok) throw new Error();
+
+        localStorage.setItem("orderData", JSON.stringify({ name, phone, code, timestamp }));
+
+        orderForm.style.display = 'none';
+        successAnimation.style.display = 'block';
+
+        setTimeout(() => {
+          successAnimation.style.display = 'none';
+          responseMsg.textContent = "✅ تم استلام الطلب، سيتم التواصل معك قريبًا.";
+          responseMsg.style.display = 'block';
+          displayCode.textContent = code;
+          linkTrack.style.display = 'block';
+        }, 2500);
+
+      } catch {
+        spinner.style.display = 'none';
+        showError("🚫 فشل الإرسال. حاول لاحقاً.");
+      }
+    });
+  </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-  <h2>آراء عملائنا</h2>
-  
