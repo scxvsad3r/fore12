@@ -1,0 +1,13 @@
+# netlify.toml
+# أولاً: استثناء sitemap.xml من SPA redirect
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap.xml"
+  status = 200
+  force = true
+
+# ثانياً: كل المسارات الأخرى ترجع index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
