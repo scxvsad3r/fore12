@@ -1,28 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>4 STORE</title>
-  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet" />
-
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MH2HNP5ZY5"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-MH2HNP5ZY5');
-  </script>
-  
-
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>4 STORE </title>
   <link rel="icon" href="https://4-store.netlify.app/83.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet" />
   <meta name="description" content="احصل على iPhone 16 Pro Max بالتقسيط الفوري وبدون دفعة أولى من إمكان عبر متجر 4 STORE." />
@@ -31,6 +12,15 @@
   <meta property="og:description" content="تمويل فوري من إمكان وبدون كفيل على أحدث أجهزة iPhone." />
   <meta property="og:image" content="https://4-store.netlify.app/vb.png" />
   <meta property="og:url" content="#" />
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MH2HNP5ZY5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-MH2HNP5ZY5');
+  </script>
+
   <style>
     /* Loader */
     #loader {
@@ -42,6 +32,7 @@
       justify-content: center;
       align-items: center;
       z-index: 9999;
+      transition: opacity 0.5s ease-out;
     }
     #loader div {
       width: 40px;
@@ -51,7 +42,9 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
 
     body {
       margin: 0;
@@ -60,6 +53,7 @@
       background-repeat: repeat;
       color: #222;
     }
+
     /* Golden top bar */
     .top-bar {
       background: #ffd700;
@@ -233,6 +227,7 @@
       width: 50px;
       height: 50px;
       border: 2px solid #8c3aff;
+      object-fit: cover;
     }
     .testimonial-box p {
       margin: 5px 0;
@@ -288,6 +283,117 @@
       transform: scale(1.1);
     }
 
+    /* Fake Notification */
+    .fake-notification {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: #e6f9ee;
+      color: #1a472a;
+      padding: 14px 18px;
+      border-radius: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      font-size: 14px;
+      font-family: 'Almarai', sans-serif;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.5s ease-in-out;
+    }
+    .fake-notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fake-notification-icon {
+      background-color: #1a472a;
+      color: white;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    /* Device Select Styles */
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    select#deviceSelect {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: linear-gradient(270deg, #7f00ff, #e100ff, #7f00ff);
+      background-size: 600% 600%;
+      animation: gradientMove 8s ease infinite;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: 'Almarai', sans-serif;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+      margin-bottom: 15px;
+    }
+    select#deviceSelect:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(127, 0, 255, 0.4);
+    }
+    option {
+      background-color: white;
+      color: black;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-family: 'Almarai', sans-serif;
+      color: #4B0082;
+      text-align: right;
+      max-width: 400px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    #priceBox {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #4B0082;
+      text-align: center;
+    }
+
+    /* FAQ Section */
+    #faq {
+      background: #f1f1f1;
+      padding: 40px 20px;
+      text-align: right;
+    }
+    #faq h2 {
+      color: #3b0a77;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+      font-weight: bold;
+      text-align: center;
+    }
+    #faq p {
+      font-size: 1.1em;
+      margin: 10px auto;
+      font-weight: 600;
+      max-width: 600px;
+      text-align: justify;
+    }
+
     /* Responsive */
     @media (max-width: 600px) {
       .testimonial-box {
@@ -297,54 +403,159 @@
       .trust-logos {
         gap: 25px;
       }
+      .fake-notification {
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        width: auto;
+        font-size: 12px;
+      }
     }
   </style>
 </head>
 <body>
 
+<div id="loader"><div></div></div>
 
+<div class="top-bar">
+  🔒 تمويل رسمي معتمد من <span>إمكان</span> – بدون دفعة أولى أو كفيل
+</div>
 
+<header>
+  <div class="site-title">4 <span>STORE</span> × إمكان</div>
+  <img src="https://4-store.netlify.app/83.png" alt="4 STORE Logo" class="logo" />
+</header>
 
-<!-- إشعارات وهمية -->
-<style>
-  .fake-notification {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    background-color: #e6f9ee;
-    color: #1a472a;
-    padding: 14px 18px;
-    border-radius: 30px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    font-size: 14px;
-    font-family: 'Arial', sans-serif;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.5s ease-in-out;
-  }
-  
-  .fake-notification.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  .fake-notification-icon {
-    background-color: #1a472a;
-    color: white;
-    border-radius: 50%;
-    width: 26px;
-    height: 26px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
-  }
-</style>
+<nav>
+  <a href="#offers">العروض</a>
+  <a href="#trust">لماذا 4 ستور؟</a>
+  <a href="nn.html">مزايا حصرية</a>
+  <a href="#testimonials">آراء العملاء</a>
+  <a href="#contact">تواصل معنا</a>
+  <a href="#faq">الأسئلة الشائعة</a>
+</nav>
+
+<main>
+  <section class="hero">
+    <h1>احصل على جوالك بالتقسيط الفوري</h1>
+    <p>بدون دفعة أولى وبدون كفيل عبر إمكان - تمويل سريع وآمن</p>
+  </section>
+
+  <section class="section offer-box" id="offers">
+    <div class="ribbon">عرض خاص</div>
+    <img src="vb.png" alt="iPhone 16 Pro Max" />
+    <h2>iPhone 16 Pro Max</h2>
+    <p>احصل على أحدث أجهزة iPhone بالتقسيط مع إمكان، بدون عناء، بدون تعقيدات.</p>
+    <div class="highlights">تمويل فوري - بدون كفيل - 5 أشهر تقسيط</div>
+
+    <div class="form-group">
+      <label for="deviceSelect">اختر جهازك:</label>
+      <select id="deviceSelect">
+        <option disabled selected>-- اختر الجهاز --</option>
+        <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
+        <option value="iPhone 16">iPhone 16</option>
+        <option value="iPhone 16 plus">iPhone 16 plus</option>
+        <option value="iPhone 15">iPhone 15</option>
+        <option value="iPhone 15 plus">iPhone 15 plus</option>
+        <option value="iPhone 14">iPhone 14</option>
+        <option value="iPhone SE">iPhone SE</option>
+        <option value="iPad Pro">iPad Pro</option>
+        <option value="Apple Watch">Apple Watch</option>
+      </select>
+
+      <div id="priceBox"></div>
+
+      <a id="orderButton" class="whatsapp-button" href="#" style="display: none;">اطلب الآن</a>
+    </div>
+  </section>
+
+  <section class="trust-section" id="trust">
+    <h2>لماذا 4 ستور؟</h2>
+    <p>ثقة، سرعة، سهولة، وأمان في تمويلك لشراء الأجهزة الإلكترونية بدون تعقيد.</p>
+    <div class="trust-logos" aria-label="شعارات شركات وشركاء">
+      <img src="emkan-logo.png" alt="شعار إمكان" />
+      <img src="bank1-logo.png" alt="شعار البنك 1" />
+      <img src="bank2-logo.png" alt="شعار البنك 2" />
+      <img src="security-logo.png" alt="شعار الأمان" />
+    </div>
+  </section>
+
+  <section class="testimonials" id="testimonials" aria-label="آراء العملاء">
+    <h2>آراء عملائنا</h2>
+
+    <div class="testimonial-box" role="article">
+      <img src="client1.jpg" alt="صورة العميل أحمد سلطان" />
+      <div>
+        <p>خدمة ممتازة وسريعة، ساعدوني كثيراً في شراء الآيفون بدون تعقيدات.</p>
+        <small>– أحمد سلطان، حائل</small>
+      </div>
+    </div>
+
+    <div class="testimonial-box" role="article">
+      <img src="client2.jpg" alt="صورة العميل نورة" />
+      <div>
+        <p>تمويل آمن وسهل، أنصح الجميع بالتعامل مع 4 STORE وإمكان.</p>
+        <small>– نورة، حائل</small>
+      </div>
+    </div>
+
+    <div class="testimonial-box" role="article">
+      <img src="client3.jpg" alt="صورة العميل طلال سلطان" />
+      <div>
+        <p>فريق متعاون، وتمويل سريع بدون تعقيد. استلمت الجهاز خلال يومين فقط.</p>
+        <small>– طلال سلطان، حائل</small>
+      </div>
+    </div>
+
+    <div class="testimonial-box" role="article">
+      <img src="client4.jpg" alt="صورة العميل سارة محمد" />
+      <div>
+        <p>طريقة التقديم كانت سهلة جداً من خلال الموقع، شكراً لكم.</p>
+        <small>– سارة محمد، حائل</small>
+      </div>
+    </div>
+
+    <div class="testimonial-box" role="article">
+      <img src="client5.jpg" alt="صورة العميل لمياء الناصر" />
+      <div>
+        <p>تجربة رائعة وسهولة تامة في الإجراءات، أوصي به للجميع.</p>
+        <small>– لمياء الناصر، الرياض</small>
+      </div>
+    </div>
+
+    <div class="testimonial-box" role="article">
+      <img src="client6.jpg" alt="صورة العميل ماجد القحطاني" />
+      <div>
+        <p>خدمة عملاء متميزة واستلام الجهاز بس تاخرو شوية جلس تقريبا اسبوع !</p>
+        <small>– ماجد القحطاني، جدة</small>
+      </div>
+    </div>
+
+    <div class="testimonial-box" role="article">
+      <img src="client7.jpg" alt="صورة العميل نوف الشهراني" />
+      <div>
+        <p>أفضل تجربة تمويل جربتها، شكراً لفريق 4 STORE على الاحترافية.</p>
+        <small>– نوف الشهراني، الدمام</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <h2>الأسئلة الشائعة</h2>
+    <p><strong>هل أحتاج إلى كفيل؟</strong> لا، التمويل متاح بدون كفيل.</p>
+    <p><strong>ما هي مدة التقسيط؟</strong> حتى 5 أشهر.</p>
+    <p><strong>كيف أقدم؟</strong> فقط قدم طلبك عبر الموقع وسنتواصل معك خلال دقائق.</p>
+  </section>
+
+  <section class="section" id="contact">
+    <p>هل لديك أي استفسار؟ نحن هنا لمساعدتك على مدار الساعة.</p>
+    <a href="https://wa.me/966554866561" target="_blank" rel="noopener" class="whatsapp-button" aria-label="تواصل معنا عبر واتساب">اتصل بنا الآن</a>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 4 STORE × . جميع الحقوق محفوظة.
+</footer>
 
 <div class="fake-notification" id="fakeNotification">
   <div class="fake-notification-icon">📢</div>
@@ -365,226 +576,56 @@
     "🔥 عميل من <strong>المدينة</strong> حصل على عرض خاص!",
     "🎉 شخص من <strong>تبوك</strong> اشترى آيفون بالتقسيط!"
   ];
-  
+
   const notificationEl = document.getElementById("fakeNotification");
   const notificationText = document.getElementById("notificationText");
   const notificationSound = document.getElementById("notificationSound");
-  
+
   function showFakeNotification(playSound = false) {
     const usedIndexes = JSON.parse(localStorage.getItem("usedNotificationIndexes")) || [];
-    
-    // اختار إشعار لم يُعرض من قبل
+
     let index;
     const availableIndexes = notifications
       .map((_, i) => i)
       .filter(i => !usedIndexes.includes(i));
-    
+
     if (availableIndexes.length === 0) {
-      localStorage.removeItem("usedNotificationIndexes"); // نعيد التدوير
+      localStorage.removeItem("usedNotificationIndexes");
       index = Math.floor(Math.random() * notifications.length);
     } else {
       index = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
     }
-    
+
     const message = notifications[index];
     usedIndexes.push(index);
     localStorage.setItem("usedNotificationIndexes", JSON.stringify(usedIndexes));
-    
+
     notificationText.innerHTML = message;
     notificationEl.classList.add("show");
-    
+
     if (playSound) {
-      notificationSound.play().catch(() => {}); // بدون خطأ لو رفض المتصفح
+      notificationSound.play().catch(() => {});
     }
-    
+
     setTimeout(() => {
       notificationEl.classList.remove("show");
     }, 6000);
   }
-  
-  // أول إشعار بعد 8 ثواني
+
   setTimeout(() => {
     const alreadyShown = localStorage.getItem("firstNotificationShown");
     if (!alreadyShown) {
-      showFakeNotification(true); // أول إشعار + صوت
+      showFakeNotification(true);
       localStorage.setItem("firstNotificationShown", "true");
     } else {
       showFakeNotification(false);
     }
-    
+
     setInterval(() => {
       showFakeNotification(false);
     }, 20000);
   }, 8000);
-</script>
 
-
-
-
-
-
-
-
-
-
-
-
-<!-- Loader -->
-<div id="loader"><div></div></div>
-
-<!-- Top gold bar -->
-<div class="top-bar">
-  🔒 تمويل رسمي معتمد من <span>إمكان</span> – بدون دفعة أولى أو كفيل
-</div>
-
-<header>
-    <div class="site-title">4 <span> STORE</span> × إمكان</div>
-  <img src="https://4-store.netlify.app/83.png" alt="4 STORE Logo" class="logo" />
-</header>
-
-<nav>
-  <a href="#offers">العروض</a>
-  <a href="#trust">لماذا 4 ستور؟</a>
-  <a href="nn.html">مزايا حصرية</a> 
-  <a href="#testimonials">آراء العملاء</a>
-  <a href="#contact">تواصل معنا</a>
-</nav>
-
-<section class="hero">
-  <h1>احصل على  جوالك   بالتقسيط الفوري</h1>
-  <p>بدون دفعة أولى وبدون كفيل عبر إمكان - تمويل سريع وآمن</p>
-</section>
-
-<section class="section offer-box" id="offers">
-  <div class="ribbon">عرض خاص</div>
-  <img src="vb.png" alt="iPhone 16 Pro Max" />
-  <h2>iPhone 16 Pro Max</h2>
-  <p>احصل على أحدث أجهزة iPhone بالتقسيط مع إمكان، بدون عناء، بدون تعقيدات.</p>
-  <div class="highlights">تمويل فوري - بدون كفيل - 5 شهر تقسيط</div>
-  <a
-    href="nm.html"
-
-    rel="noopener"
-    class="whatsapp-button"
-    aria-label="اتصل بنا عبر واتساب"
-    >اطلب الآن  </a
-  >
-</section>
-
-<section class="trust-section" id="trust">
-  <h2>لماذا  4ستور ؟</h2>
-  <p>ثقة، سرعة، سهولة، وأمان في تمويلك لشراء الأجهزة الإلكترونية بدون تعقيد.</p>
-  <div class="trust-logos" aria-label="شعارات شركات وشركاء">
-    <img src="emkan-logo.png" alt="شعار إمكان" />
-    <img src="bank1-logo.png" alt="شعار البنك 1" />
-    <img src="bank2-logo.png" alt="شعار البنك 2" />
-    <img src="security-logo.png" alt="شعار الأمان" />
-  </div>
-</section>
-<section class="testimonials" id="testimonials" aria-label="آراء العملاء">
-  <h2>آراء عملائنا</h2>
-  
-  <div class="testimonial-box" role="article">
-    <img src="client1.jpg" alt="صورة العميل 1" />
-    <div>
-      <p>خدمة ممتازة وسريعة، ساعدوني كثيراً في شراء الآيفون بدون تعقيدات.</p>
-      <small>– أحمد سلطان، حائل</small>
-    </div>
-  </div>
-  
-  <div class="testimonial-box" role="article">
-    <img src="client2.jpg" alt="صورة العميل 2" />
-    <div>
-      <p>تمويل آمن وسهل، أنصح الجميع بالتعامل مع 4 STORE وإمكان.</p>
-      <small>– نورة، حائل</small>
-    </div>
-  </div>
-  
-  <div class="testimonial-box" role="article">
-    <img src="client3.jpg" alt="صورة العميل 3" />
-    <div>
-      <p>فريق متعاون، وتمويل سريع بدون تعقيد. استلمت الجهاز خلال يومين فقط.</p>
-      <small>– طلال سلطان، حائل</small>
-    </div>
-  </div>
-
-  <div class="testimonial-box" role="article">
-    <img src="client4.jpg" alt="صورة العميل 4" />
-      <p>طريقة التقديم كانت سهلة جداً من خلال الواتساب، شكراً لكم.</p>
-      <small>– سارة محمد، حائل</small>
-    
-        <!--Tab to edit-->
-      </div>
-        <!-- Original -->
-  <div class="testimonial-box">
-    <img src="client1.jpg" alt="صورة العميل 1" />
-    <div>
-      <p>خدمة ممتازة وسريعة، ساعدوني كثيراً في شراء الآيفون بدون تعقيدات.</p>
-      <small>– أحمد خالد، حائل</small>
-    </div>
-  </div>
-  
-  <div class="testimonial-box">
-    <img src="client2.jpg" alt="صورة العميل 2" />
-    <div>
-      <p>تمويل آمن وسهل، أنصح الجميع بالتعامل مع 4 STORE وإمكان.</p>
-      <small>– وايل يزيد، حائل</small>
-    </div>
-  </div>
-  
-  <div class="testimonial-box">
-    <img src="client3.jpg" alt="صورة العميل 3" />
-    <div>
-      <p>فريق متعاون، وتمويل سريع بدون تعقيد. استلمت الجهاز خلال يومين فقط.</p>
-      <small>– فهد الشمري ، حائل</small>
-    </div>
-  </div>
-  
-  <div class="testimonial-box">
-    <img src="client4.jpg" alt="صورة العميل 4" />
-    <div>
-      <p>طريقة التقديم كانت سهلة جداً من خلال  الموقع، شكراً لكم.</p>
-      <small>– ليان اليافعي، حائل</small>
-    </div>
-  </div>
-  
-  <!-- New -->
-  <div class="testimonial-box">
-    <img src="client5.jpg" alt="صورة العميل 5" />
-    <div>
-      <p>تجربة رائعة وسهولة تامة في الإجراءات، أوصي به للجميع.</p>
-      <small>– لمياء الناصر، الرياض</small>
-    </div>
-  </div>
-  
-  <div class="testimonial-box">
-    <img src="client6.jpg" alt="صورة العميل 6" />
-    <div>
-      <p>خدمة عملاء متميزة واستلام الجهاز بس تاخرو شوية جلس تقريبا اسبوع  !</p>
-      <small>– ماجد القحطاني، جدة</small>
-    </div>
-  </div>
-  
-  <div class="testimonial-box">
-    <img src="client7.jpg" alt="صورة العميل 7" />
-    <div>
-      <p>أفضل تجربة تمويل جربتها، شكراً لفريق 4 STORE على الاحترافية.</p>
-      <small>– نوف الشهراني، الدمام</small>
-      
-      
-      
-      
-    </div>
-  </div>
-</section>
-<section class="section" id="contact" style="text-align: center;">
-  <p>هل لديك أي استفسار؟ نحن هنا لمساعدتك على مدار الساعة.</p>
-  <a href="https://wa.me/966554866561" target="_blank" rel="noopener" class="whatsapp-button" aria-label="تواصل معنا عبر واتساب">اتصل بنا الآن</a>
-
-</section>
-
-
-<script>
   // Loader fade out
   window.addEventListener('load', () => {
     const loader = document.getElementById('loader');
@@ -593,105 +634,47 @@
       loader.style.display = 'none';
     }, 500);
   });
+
+  // Device Select Logic
+  const prices = {
+    "iPhone 16 Pro Max": { cash: 5999, installment: 6400 },
+    "iPhone 16": { cash: 5199, installment: 5600 },
+    "iPhone 16 plus": { cash: 5399, installment: 5800 },
+    "iPhone 15": { cash: 4899, installment: 5300 },
+    "iPhone 15 plus": { cash: 5099, installment: 5500 },
+    "iPhone 14": { cash: 4199, installment: 4600 },
+    "iPhone SE": { cash: 2499, installment: 2800 },
+    "iPad Pro": { cash: 4999, installment: 5400 },
+    "Apple Watch": { cash: 1799, installment: 2100 }
+  };
+
+  const select = document.getElementById("deviceSelect");
+  const orderButton = document.getElementById("orderButton");
+  const priceBox = document.getElementById("priceBox");
+
+  // إخفاء زر "اطلب الآن" مبدئياً عند تحميل الصفحة
+  orderButton.style.display = "none";
+
+  select.addEventListener("change", () => {
+    const device = select.value;
+    const info = prices[device];
+
+    if (info) {
+      priceBox.innerHTML = `
+        💰 السعر كاش: ${info.cash.toLocaleString()} ريال<br>
+        💳 السعر بالتقسيط: ${info.installment.toLocaleString()} ريال
+      `;
+      const url = `nm.html?device=${encodeURIComponent(device)}&cash=${info.cash}&installments=${info.installment}`;
+      orderButton.href = url;
+      // إظهار زر "اطلب الآن" عند اختيار الجهاز
+      orderButton.style.display = "inline-block";
+    } else {
+      priceBox.innerHTML = "";
+      // إخفاء زر "اطلب الآن" إذا لم يتم اختيار جهاز صالح
+      orderButton.style.display = "none";
+    }
+  });
 </script>
-</body>
-</html>
-
-
-
-
-
-
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Almarai', sans-serif;
-      background: #f9f9fb;
-      color: #222;
-      transition: background 0.3s, color 0.3s;
-    }
-    .dark-mode {
-      background: #121212 !important;
-      color: #f1f1f1 !important;
-    }
-    .dark-mode .top-bar,
-    .dark-mode header,
-    .dark-mode footer {
-      background: #1e1e1e !important;
-      color: #fff !important;
-    }
-    .dark-mode .offer-box,
-    .dark-mode .testimonial-box,
-    .dark-mode .trust-section {
-      background: #1a1a1a !important;
-      color: #f1f1f1 !important;
-      border-color: #333 !important;
-    }
-    .dark-mode nav {
-      background: #2c2c2c !important;
-    }
-    .dark-mode nav a {
-      color: #ffd700 !important;
-    }
-    .dark-toggle {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      z-index: 9999;
-      background: #3b0a77;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    /* FAQ Section */
-    #faq {
-      background: #f1f1f1;
-      padding: 40px 20px;
-      text-align: right;
-    }
-    #faq h2 {
-      color: #3b0a77;
-      margin-bottom: 20px;
-      font-size: 1.8em;
-      font-weight: bold;
-    }
-    #faq p {
-      font-size: 1.1em;
-      margin: 10px 0;
-      font-weight: 600;
-    }
-    .dark-mode #faq {
-      background: #1e1e1e;
-    }
-  </style>
-</head>
-<body>
-
-
-<!-- باقي الموقع ... -->
-
-<section class="section" id="faq">
-  <h2>الأسئلة الشائعة</h2>
-  <p><strong>هل أحتاج إلى كفيل؟</strong> لا، التمويل متاح بدون كفيل.</p>
-  <p><strong>ما هي مدة التقسيط؟</strong> حتى 5 أشهر.</p>
-  <p><strong>كيف أقدم؟</strong> فقط قدم طلبك عبر الموقع وسنتواصل معك خلال دقائق.
-.</p>
-</section>
-
-<!-- يمكنك إدراج footer وبقية العناصر هنا -->
-
-<script>
-  function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
-  }
-</script>
-<footer>
-  &copy; 2025 4 STORE × . جميع الحقوق محفوظة.
-</footer>
 
 </body>
 </html>
