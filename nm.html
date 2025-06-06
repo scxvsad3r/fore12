@@ -167,20 +167,22 @@
       const timestamp = Date.now();
 
       const payload = {
-        content: null,
-        embeds: [{
-          title: "طلب جديد من الموقع",
-          color: 7506394,
-          fields: [
-            { name: "الاسم", value: name, inline: true },
-            { name: "رقم الجوال", value: phone, inline: true },
-            { name: "اسم الجهاز", value: device, inline: true },
-            { name: "كود الطلب", value: code, inline: true }
-          ],
-          timestamp: new Date().toISOString()
-        }]
-      };
-
+  content: null,
+  embeds: [{
+    title: "طلب جديد من الموقع",
+    color: 7506394,
+    fields: [
+      { name: "الاسم", value: name, inline: true },
+      { name: "رقم الجوال", value: phone, inline: true },
+      { name: "اسم الجهاز", value: device, inline: true },
+      { name: "السعر كاش", value: `${cashPrice.toLocaleString()} ريال`, inline: true },
+      { name: "السعر تقسيط", value: `${installmentPrice.toLocaleString()} ريال`, inline: true },
+      { name: "القسط الشهري", value: `${monthly.toLocaleString()} ريال × 5 شهور`, inline: true },
+      { name: "كود الطلب", value: code, inline: true }
+    ],
+    timestamp: new Date().toISOString()
+  }]
+};
       try {
         const res = await fetch(webhookURL, {
           method: "POST",
