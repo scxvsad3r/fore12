@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -102,24 +103,33 @@
 
   <footer>جميع الحقوق محفوظة &copy; 4STORE - <span dir="ltr">2025</span></footer>
 
-  <script>
+
+</body>
+</html>
+
+
+
+
+
+<script>
     const webhookURL = "https://discord.com/api/webhooks/1378768286178742432/08gieZ8nof2XPyIJ_AQmVleQl17tBuxwj6WGhQGbl_TayVPMghWfeSjugt8lHQCIidkm";
     const COOLDOWN_MINUTES = 1440; // 24 ساعة
-
+    const stopOrders = true; // ← غيّرها إلى false لما تبي تفتح الطلبات
+    
     // استخراج البيانات من الرابط
     const params = new URLSearchParams(window.location.search);
     const selectedDevice = params.get("device") || "iPhone 16 Pro Max";
     const cashPrice = parseInt(params.get("cash")) || 5199;
     const installmentPrice = parseInt(params.get("installments")) || 5600;
     const monthly = Math.ceil(installmentPrice / 5);
-
+    
     document.getElementById("device").value = selectedDevice;
     document.getElementById("deviceDetails").innerHTML = `
-      💰 السعر كاش: ${cashPrice.toLocaleString()} ريال<br>
-      💳 السعر بالتقسيط: ${installmentPrice.toLocaleString()} ريال<br>
-      📆 القسط الشهري: ${monthly.toLocaleString()} ريال × 5 شهور
-    `;
-
+    💰 السعر كاش: ${cashPrice.toLocaleString()} ريال<br>
+    💳 السعر بالتقسيط: ${installmentPrice.toLocaleString()} ريال<br>
+    📆 القسط الشهري: ${monthly.toLocaleString()} ريال × 5 شهور
+  `;
+    
     const orderForm = document.getElementById('orderForm');
     const spinner = document.getElementById('spinner');
     const successAnimation = document.getElementById('successAnimation');
@@ -127,89 +137,95 @@
     const errorMsg = document.getElementById('errorMsg');
     const linkTrack = document.getElementById('linkTrack');
     const displayCode = document.getElementById('displayCode');
-
+    
     function showError(msg) {
-      errorMsg.textContent = msg;
-      errorMsg.style.display = 'block';
-      responseMsg.style.display = successAnimation.style.display = spinner.style.display = linkTrack.style.display = 'none';
+        errorMsg.textContent = msg;
+        errorMsg.style.display = 'block';
+        responseMsg.style.display = successAnimation.style.display = spinner.style.display = linkTrack.style.display = 'none';
     }
-
+    
     const previousOrder = JSON.parse(localStorage.getItem("orderData"));
     if (previousOrder) {
-      const diff = Date.now() - previousOrder.timestamp;
-      const minutesPassed = diff / (1000 * 60);
-      if (minutesPassed < COOLDOWN_MINUTES) {
-        orderForm.style.display = 'none';
-        responseMsg.style.display = 'block';
-        const hoursLeft = Math.floor((COOLDOWN_MINUTES - minutesPassed) / 60);
-        const minutesLeft = Math.ceil((COOLDOWN_MINUTES - minutesPassed) % 60);
-        responseMsg.textContent = `⚠️ لقد قمت بإرسال طلب مسبقًا. الرجاء الانتظار ${hoursLeft} ساعة و${minutesLeft} دقيقة.`;
-        displayCode.textContent = previousOrder.code;
-        linkTrack.style.display = 'block';
-      } else {
-        localStorage.removeItem("orderData");
-      }
+        const diff = Date.now() - previousOrder.timestamp;
+        const minutesPassed = diff / (1000 * 60);
+        if (minutesPassed < COOLDOWN_MINUTES) {
+            orderForm.style.display = 'none';
+            responseMsg.style.display = 'block';
+            const hoursLeft = Math.floor((COOLDOWN_MINUTES - minutesPassed) / 60);
+            const minutesLeft = Math.ceil((COOLDOWN_MINUTES - minutesPassed) % 60);
+            responseMsg.textContent = `⚠️ لقد قمت بإرسال طلب مسبقًا. الرجاء الانتظار ${hoursLeft} ساعة و${minutesLeft} دقيقة.`;
+            displayCode.textContent = previousOrder.code;
+            linkTrack.style.display = 'block';
+        } else {
+            localStorage.removeItem("orderData");
+        }
     }
-
+    
     orderForm.addEventListener('submit', async e => {
-      e.preventDefault();
-      errorMsg.style.display = responseMsg.style.display = linkTrack.style.display = 'none';
-      spinner.style.display = 'block';
-
-      const name = document.getElementById('name').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const device = document.getElementById('device').value.trim();
-
-      if (!name) return showError("⚠️ الرجاء إدخال الاسم.");
-      if (!phone.match(/^05[0-9]{8}$/)) return showError("⚠️ رقم الجوال غير صحيح.");
-
-      const code = Math.random().toString(36).substr(2, 6).toUpperCase();
-      const timestamp = Date.now();
-
-      const payload = {
-  content: null,
-  embeds: [{
-    title: "طلب جديد من الموقع",
-    color: 7506394,
-    fields: [
-      { name: "الاسم", value: name, inline: true },
-      { name: "رقم الجوال", value: phone, inline: true },
-      { name: "اسم الجهاز", value: device, inline: true },
-      { name: "السعر كاش", value: `${cashPrice.toLocaleString()} ريال`, inline: true },
-      { name: "السعر تقسيط", value: `${installmentPrice.toLocaleString()} ريال`, inline: true },
-      { name: "القسط الشهري", value: `${monthly.toLocaleString()} ريال × 5 شهور`, inline: true },
-      { name: "كود الطلب", value: code, inline: true }
-    ],
-    timestamp: new Date().toISOString()
-  }]
-};
-      try {
-        const res = await fetch(webhookURL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        spinner.style.display = 'none';
-        if (!res.ok) throw new Error();
-
-        localStorage.setItem("orderData", JSON.stringify({ name, phone, code, timestamp }));
-
-        orderForm.style.display = 'none';
-        successAnimation.style.display = 'block';
-
-        setTimeout(() => {
-          successAnimation.style.display = 'none';
-          responseMsg.textContent = "✅ تم استلام الطلب، سيتم التواصل معك قريبًا.";
-          responseMsg.style.display = 'block';
-          displayCode.textContent = code;
-          linkTrack.style.display = 'block';
-        }, 2500);
-
-      } catch {
-        spinner.style.display = 'none';
-        showError("🚫 فشل الإرسال. حاول لاحقاً.");
-      }
+        e.preventDefault();
+        errorMsg.style.display = responseMsg.style.display = linkTrack.style.display = 'none';
+        spinner.style.display = 'block';
+        
+        const name = document.getElementById('name').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const device = document.getElementById('device').value.trim();
+        
+        if (!name) return showError("⚠️ الرجاء إدخال الاسم.");
+        if (!phone.match(/^05[0-9]{8}$/)) return showError("⚠️ رقم الجوال غير صحيح.");
+        
+        // 🟥 إيقاف الطلبات مؤقتًا
+        if (stopOrders) {
+            spinner.style.display = 'none';
+            showError("⚠️ تم إيقاف استقبال الطلبات مؤقتًا للعدد الكبير من الطلبات.\n\nسيتم فتح الطلبات غدًا بإذن الله.");
+            return;
+        }
+        
+        const code = Math.random().toString(36).substr(2, 6).toUpperCase();
+        const timestamp = Date.now();
+        
+        const payload = {
+            content: null,
+            embeds: [{
+                title: "طلب جديد من الموقع",
+                color: 7506394,
+                fields: [
+                    { name: "الاسم", value: name, inline: true },
+                    { name: "رقم الجوال", value: phone, inline: true },
+                    { name: "اسم الجهاز", value: device, inline: true },
+                    { name: "السعر كاش", value: `${cashPrice.toLocaleString()} ريال`, inline: true },
+                    { name: "السعر تقسيط", value: `${installmentPrice.toLocaleString()} ريال`, inline: true },
+                    { name: "القسط الشهري", value: `${monthly.toLocaleString()} ريال × 5 شهور`, inline: true },
+                    { name: "كود الطلب", value: code, inline: true }
+                ],
+                timestamp: new Date().toISOString()
+            }]
+        };
+        
+        try {
+            const res = await fetch(webhookURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            spinner.style.display = 'none';
+            if (!res.ok) throw new Error();
+            
+            localStorage.setItem("orderData", JSON.stringify({ name, phone, code, timestamp }));
+            
+            orderForm.style.display = 'none';
+            successAnimation.style.display = 'block';
+            
+            setTimeout(() => {
+                successAnimation.style.display = 'none';
+                responseMsg.textContent = "✅ تم استلام الطلب، سيتم التواصل معك قريبًا.";
+                responseMsg.style.display = 'block';
+                displayCode.textContent = code;
+                linkTrack.style.display = 'block';
+            }, 2500);
+            
+        } catch {
+            spinner.style.display = 'none';
+            showError("🚫 فشل الإرسال. حاول لاحقاً.");
+        }
     });
-  </script>
-</body>
-</html>
+</script>
