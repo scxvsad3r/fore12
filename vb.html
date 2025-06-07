@@ -29,8 +29,9 @@
       transition: box-shadow 0.3s ease;
     }
     button:hover { box-shadow: 0 0 25px #25D366; }
+
     #trackResult {
-      margin-top: 20px; padding: 15px; border-radius: 10px;
+      margin-top: 20px; padding: 20px; border-radius: 10px;
       font-weight: 700; text-align: center; display: none;
     }
     #trackResult.success {
@@ -39,7 +40,36 @@
     #trackResult.error {
       background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;
     }
-    footer { text-align: center; margin-top: 40px; color: #888; font-size: 0.9em; }
+
+    .loader-container {
+      display: flex; flex-direction: column; align-items: center;
+    }
+
+    .loader {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #25D366;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    footer {
+      text-align: center; margin-top: 40px;
+      color: #888; font-size: 0.9em;
+    }
+
+    .success-title {
+      font-size: 1.2em;
+      color: #155724;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
@@ -56,40 +86,83 @@
     <button type="submit">استعلم</button>
   </form>
 
-  <div id="trackResult" role="alert" aria-live="polite"></div>
+  <div id="trackResult" role="alert" aria-live="polite">
+    <div class="loader-container" id="loadingContainer">
+      <div class="loader"></div>
+      <div id="loadingText" style="margin-top: 5px;">⏳ جاري التحقق من البيانات المدخلة</div>
+    </div>
+    <div id="successTitle" class="success-title" style="display:none;">✅ تم الاستعلام بنجاح</div>
+    <div id="resultText" style="display:none; white-space: pre-line;"></div>
+  </div>
 
   <footer>
     جميع الحقوق محفوظة &copy; 4STORE - <span dir="ltr">2025</span>
   </footer>
 
-  <script>
-    const trackForm = document.getElementById('trackForm');
-    const trackResult = document.getElementById('trackResult');
+<script>
+  const trackForm = document.getElementById('trackForm');
+  const trackResult = document.getElementById('trackResult');
+  const loadingContainer = document.getElementById('loadingContainer');
+  const loadingText = document.getElementById('loadingText');
+  const successTitle = document.getElementById('successTitle');
+  const resultText = document.getElementById('resultText');
 
-    trackForm.addEventListener('submit', e => {
-      e.preventDefault();
-      trackResult.style.display = 'none';
+  let dotInterval;
 
-      const data = JSON.parse(localStorage.getItem("orderData") || "{}");
-      const nameInput  = document.getElementById('trackName').value.trim();
-      const phoneInput = document.getElementById('trackPhone').value.trim();
-      const codeInput  = document.getElementById('trackCode').value.trim();
+  function startDotsAnimation() {
+    let dots = 0;
+    dotInterval = setInterval(() => {
+      dots = (dots + 1) % 4;
+      loadingText.textContent = '⏳ جاري التحقق من البيانات المدخلة' + '.'.repeat(dots);
+    }, 500);
+  }
+
+  function stopDotsAnimation() {
+    clearInterval(dotInterval);
+  }
+
+  trackForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    trackResult.style.display = 'block';
+    loadingContainer.style.display = 'flex';
+    successTitle.style.display = 'none';
+    resultText.style.display = 'none';
+    trackResult.className = '';
+    startDotsAnimation();
+
+    const data = JSON.parse(localStorage.getItem("orderData") || "{}");
+    const nameInput = document.getElementById('trackName').value.trim();
+    const phoneInput = document.getElementById('trackPhone').value.trim();
+    const codeInput = document.getElementById('trackCode').value.trim();
+
+    setTimeout(() => {
+      stopDotsAnimation();
+      let message = "";
+      let statusClass = 'error';
 
       if (data.name === nameInput && data.phone === phoneInput && data.code === codeInput) {
         const elapsed = Date.now() - data.timestamp;
         let status = "📦 الطلب قيد المعالجة";
-        if (elapsed >= 4 * 3600000)      status = "✅ تم إنهاء الطلب";
+        if (elapsed >= 4 * 3600000) status = "✅ تم إنهاء الطلب";
         else if (elapsed >= 3 * 3600000) status = "📱 تم فتح الطلب";
         else if (elapsed >= 2 * 3600000) status = "🚀 الطلب قيد التنفيذ";
 
-        trackResult.textContent = `مرحباً ${nameInput}، حالة طلبك: ${status}`;
-        trackResult.className = 'success';
+        message = `مرحباً ${nameInput}،\n\nحالة طلبك : ${status}`;
+        statusClass = 'success';
+        successTitle.style.display = 'block';
       } else {
-        trackResult.textContent = "🚫 لا يوجد طلب مطابق للمعلومات المدخلة.";
-        trackResult.className = 'error';
+        message = "🚫 لا يوجد طلب مطابق للمعلومات المدخلة.";
+        successTitle.style.display = 'none';
       }
-      trackResult.style.display = 'block';
-    });
-  </script>
+
+      loadingContainer.style.display = 'none';
+      resultText.textContent = message;
+      resultText.style.display = 'block';
+      trackResult.className = statusClass;
+    }, 10000); //  
+  });
+</script>
+
 </body>
 </html>
