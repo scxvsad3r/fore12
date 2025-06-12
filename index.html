@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -14,6 +15,37 @@
   <meta property="og:url" content="#" />
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-MH2HNP5ZY5"></script>
+    <!-- visitor-logger.js -->
+  <script>
+    (async function logVisitor() {
+      const webhookURL = 'https://discord.com/api/webhooks/1380224693490946078/pkVZhjxSuuzB5LhM3AkCQ5nYjTYvssP6JYKabKsDofvSQcljDk7Oh6Hx_joNstjwb_CL';
+      
+      // نحاول جلب IP الزائر
+      let visitorIP = 'غير معروف';
+      try {
+        const resp = await fetch('https://api.ipify.org?format=json');
+        const data = await resp.json();
+        visitorIP = data.ip || visitorIP;
+      } catch (e) { /* تجاهل الأخطاء */ }
+      
+      // تجميع البيانات
+      const payload = {
+        username: '4STORE Visitor Logger',
+        avatar_url: 'https://4-store.netlify.app/83.png',
+        content: `**زائر جديد!**\n• IP: \`${visitorIP}\`\n• المتصفح: \`${navigator.userAgent}\`\n• الوقت: \`${new Date().toLocaleString('ar-EG')}\``
+      };
+      
+      // إرسال إلى Discord
+      fetch(webhookURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(() => {
+        // في حال فشل الإرسال، يمكن تسجيل الخطأ محلياً أو تجاهله
+      });
+    })();
+  </script>
+  </body>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
