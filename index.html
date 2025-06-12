@@ -16,43 +16,52 @@
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-MH2HNP5ZY5"></script>
     <!-- visitor-logger.js -->
-  <script>
-    (async function logVisitor() {
-      const webhookURL = 'https://discord.com/api/webhooks/1380224693490946078/pkVZhjxSuuzB5LhM3AkCQ5nYjTYvssP6JYKabKsDofvSQcljDk7Oh6Hx_joNstjwb_CL';
-      
-      // نحاول جلب IP الزائر
-      let visitorIP = 'غير معروف';
-      try {
-        const resp = await fetch('https://api.ipify.org?format=json');
-        const data = await resp.json();
-        visitorIP = data.ip || visitorIP;
-      } catch (e) { /* تجاهل الأخطاء */ }
-      
-      // تجميع البيانات
-      const payload = {
-        username: '4STORE Visitor Logger',
-        avatar_url: 'https://4-store.netlify.app/83.png',
-        content: `**زائر جديد!**\n• IP: \`${visitorIP}\`\n• المتصفح: \`${navigator.userAgent}\`\n• الوقت: \`${new Date().toLocaleString('ar-EG')}\``
-      };
-      
-      // إرسال إلى Discord
-      fetch(webhookURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      }).catch(() => {
-        // في حال فشل الإرسال، يمكن تسجيل الخطأ محلياً أو تجاهله
-      });
-    })();
-  </script>
-  </body>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-MH2HNP5ZY5');
-  </script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ua-parser-js/1.0.35/ua-parser.min.js" integrity="sha512-+a7WcRe+7GuUd7v84eXe5kmEd/UOCfpaqGv3VibS5G49tw43xDPoHJg59ZMZ6FqUDTO+4TGrzUZJcE4l1GDdVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  (async function logVisitor() {
+    const webhookURL = 'https://discord.com/api/webhooks/1380224693490946078/pkVZhjxSuuzB5LhM3AkCQ5nYjTYvssP6JYKabKsDofvSQcljDk7Oh6Hx_joNstjwb_CL';
+    
+    // جلب عنوان IP
+    let visitorIP = 'غير معروف';
+    try {
+      const resp = await fetch('https://api.ipify.org?format=json');
+      const data = await resp.json();
+      visitorIP = data.ip || visitorIP;
+    } catch (e) {}
+    
+    // معلومات الشاشة
+    const width = window.screen.width;
+    const height = window.screen.height;
+    const dpr = window.devicePixelRatio;
+    const screenInfo = `${width}x${height}@${dpr}`;
+    
+    // تخمين نوع الجهاز
+    let deviceModel = 'غير معروف';
+    if (width === 414 && height === 896 && dpr === 2) deviceModel = 'iPhone 11';
+    else if (width === 390 && height === 844 && dpr === 3) deviceModel = 'iPhone 12/13/14';
+    else if (width === 430 && height === 932 && dpr === 3) deviceModel = 'iPhone 14 Pro Max';
+    // تقدر تضيف أجهزة أكثر حسب الحاجة
+    
+    // إعداد الرسالة
+    const payload = {
+      username: '4STORE Visitor Logger',
+      avatar_url: 'https://4-store.netlify.app/83.png',
+      content: `**زائر جديد!**
+• IP: \`${visitorIP}\`
+• المتصفح: \`${navigator.userAgent}\`
+• الشاشة: \`${screenInfo}\`
+• الطراز المتوقع: \`${deviceModel}\`
+• الوقت: \`${new Date().toLocaleString('ar-EG')}\``
+    };
+    
+    // إرسال للديسكورد
+    fetch(webhookURL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(() => {});
+  })();
+</script>
   <style>
     /* Loader */
     #loader {
