@@ -6,6 +6,7 @@
   <title>4 STORE - طلب iPhone</title>
   <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet" />
   <style>
+    /* ... نفس ستايلاتك بدون تغيير ... */
     body {
       font-family: 'Almarai', sans-serif;
       background: #f9f9fb url('https://www.transparenttextures.com/patterns/symphony.png');
@@ -102,6 +103,9 @@
 
   <footer>جميع الحقوق محفوظة &copy; 4STORE - <span dir="ltr">2025</span></footer>
 
+  <!-- FingerprintJS library -->
+  <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
+
 <script>
 const COOLDOWN_MINUTES = 1440; // 24 ساعة
 const params = new URLSearchParams(window.location.search);
@@ -125,50 +129,57 @@ const errorMsg = document.getElementById('errorMsg');
 const linkTrack = document.getElementById('linkTrack');
 const displayCode = document.getElementById('displayCode');
 
-// دالة لتوليد معرف الجهاز من خصائص المتصفح
-function generateDeviceId() {
-  const navigator_info = window.navigator;
-  const screen_info = window.screen;
-  const uid = navigator_info.userAgent + navigator_info.language + screen_info.colorDepth + screen_info.width + screen_info.height + screen_info.availWidth + screen_info.availHeight + navigator_info.platform + navigator_info.hardwareConcurrency + navigator_info.deviceMemory;
-  // دالة بسيطة لتوليد hash رقمية من النص (توليد digest تقريبي)
-  let hash = 0, i, chr;
-  for (i = 0; i < uid.length; i++) {
-    chr = uid.charCodeAt(i);
-    hash = ((hash << 5) - hash) + chr;
-    hash |= 0; // اجعلها 32-bit integer
-  }
-  return 'device-' + Math.abs(hash);
+let visitorId = null; // بصمة الجهاز
+
+// تحميل FingerprintJS وإنشاء visitorId
+(async () => {
+  const fp = await FingerprintJS.load();
+  const result = await fp.get();
+  visitorId = result.visitorId;
+  checkPreviousOrder();
+})();
+
+function showError(msg) {
+  errorMsg.textContent = msg;
+  errorMsg.style.display = 'block';
+  responseMsg.style.display = successAnimation.style.display = spinner.style.display = linkTrack.style.display = 'none';
 }
 
-const deviceIdKey = "deviceUniqueId";
-let deviceId = localStorage.getItem(deviceIdKey);
-if (!deviceId) {
-  deviceId = generateDeviceId();
-  localStorage.setItem(deviceIdKey, deviceId);
-}
+function checkPreviousOrder() {
+  // جلب البيانات المخزنة بناء على visitorId
+  if (!visitorId) return;
 
-// مفتاح لتخزين بيانات الطلب بناءً على معرف الجهاز
-const orderStorageKey = "orderData_" + deviceId;
+  const allOrders = JSON.parse(localStorage.getItem("allOrders") || "{}");
+  const previousOrder = allOrders[visitorId];
 
-const previousOrder = JSON.parse(localStorage.getItem(orderStorageKey));
-if (previousOrder) {
-  const diff = Date.now() - previousOrder.timestamp;
-  const minutesPassed = diff / (1000 * 60);
-  if (minutesPassed < COOLDOWN_MINUTES) {
-    orderForm.style.display = 'none';
-    responseMsg.style.display = 'block';
-    const hoursLeft = Math.floor((COOLDOWN_MINUTES - minutesPassed) / 60);
-    const minutesLeft = Math.ceil((COOLDOWN_MINUTES - minutesPassed) % 60);
-    responseMsg.textContent = `⚠️ لقد قمت بإرسال طلب مسبقًا من هذا الجهاز. الرجاء الانتظار ${hoursLeft} ساعة و${minutesLeft} دقيقة.`;
-    displayCode.textContent = previousOrder.code;
-    linkTrack.style.display = 'block';
-  } else {
-    localStorage.removeItem(orderStorageKey);
+  if (previousOrder) {
+    const diff = Date.now() - previousOrder.timestamp;
+    const minutesPassed = diff / (1000 * 60);
+    if (minutesPassed < COOLDOWN_MINUTES) {
+      orderForm.style.display = 'none';
+      responseMsg.style.display = 'block';
+      const hoursLeft = Math.floor((COOLDOWN_MINUTES - minutesPassed) / 60);
+      const minutesLeft = Math.ceil((COOLDOWN_MINUTES - minutesPassed) % 60);
+      responseMsg.textContent = `⚠️ لقد قمت بإرسال طلب مسبقًا. الرجاء الانتظار ${hoursLeft} ساعة و${minutesLeft} دقيقة.`;
+      displayCode.textContent = previousOrder.code;
+      linkTrack.style.display = 'block';
+      return true;
+    } else {
+      // حذف الطلب القديم بعد انتهاء المهلة
+      delete allOrders[visitorId];
+      localStorage.setItem("allOrders", JSON.stringify(allOrders));
+    }
   }
+  orderForm.style.display = 'block';
+  return false;
 }
 
 orderForm.addEventListener('submit', async e => {
   e.preventDefault();
+  if (!visitorId) {
+    showError("⚠️ جاري تحميل معلومات الجهاز، يرجى الانتظار...");
+    return;
+  }
   errorMsg.style.display = responseMsg.style.display = linkTrack.style.display = 'none';
   spinner.style.display = 'block';
 
@@ -178,6 +189,13 @@ orderForm.addEventListener('submit', async e => {
 
   if (!name) return showError("⚠️ الرجاء إدخال الاسم.");
   if (!phone.match(/^05[0-9]{8}$/)) return showError("⚠️ رقم الجوال غير صحيح.");
+
+  // تحقق من وجود طلب سابق بنفس visitorId
+  const allOrders = JSON.parse(localStorage.getItem("allOrders") || "{}");
+  if (allOrders[visitorId]) {
+    spinner.style.display = 'none';
+    return showError("⚠️ لقد قمت بإرسال طلب مسبقًا من هذا الجهاز.");
+  }
 
   const code = Math.random().toString(36).substr(2, 6).toUpperCase();
   const timestamp = Date.now();
@@ -193,16 +211,16 @@ orderForm.addEventListener('submit', async e => {
         cashPrice,
         installmentPrice,
         monthly,
-        code,
-        deviceId  // أرسل معرف الجهاز مع الطلب (اختياري)
+        code
       })
     });
 
     spinner.style.display = 'none';
     if (!res.ok) throw new Error();
 
-    // تخزين الطلب بناءً على معرف الجهاز
-    localStorage.setItem(orderStorageKey, JSON.stringify({ name, phone, code, timestamp }));
+    // حفظ الطلب حسب visitorId
+    allOrders[visitorId] = { name, phone, code, timestamp };
+    localStorage.setItem("allOrders", JSON.stringify(allOrders));
 
     orderForm.style.display = 'none';
     successAnimation.style.display = 'block';
@@ -219,12 +237,6 @@ orderForm.addEventListener('submit', async e => {
     showError("🚫 فشل الإرسال. حاول لاحقاً.");
   }
 });
-
-function showError(msg) {
-  errorMsg.textContent = msg;
-  errorMsg.style.display = 'block';
-  responseMsg.style.display = successAnimation.style.display = spinner.style.display = linkTrack.style.display = 'none';
-}
 </script>
 
 </body>
