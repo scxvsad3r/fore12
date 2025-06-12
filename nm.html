@@ -6,7 +6,7 @@
   <title>4 STORE - طلب iPhone</title>
   <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    /* ... نفس ستايلاتك بدون تغيير ... */
+    /* نفس التنسيقات السابقة */
     body {
       font-family: 'Almarai', sans-serif;
       background: #f9f9fb url('https://www.transparenttextures.com/patterns/symphony.png');
@@ -89,7 +89,7 @@
 
   <div id="spinner" class="spinner"></div>
   <div id="successAnimation">
-    <div class="checkmark-circle"><div class="checkmark"></div><div class="sparkles"></div></div>
+    <div class="checkmark-circle"><div class="checkmark"></div></div>
     <p class="success-text">تم بنجاح ✅</p>
   </div>
 
@@ -103,141 +103,129 @@
 
   <footer>جميع الحقوق محفوظة &copy; 4STORE - <span dir="ltr">2025</span></footer>
 
-  <!-- FingerprintJS library -->
+  <!-- FingerprintJS CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
+  <script>
+    const COOLDOWN_MINUTES = 1440; // 24 ساعة
+    const params = new URLSearchParams(window.location.search);
+    const selectedDevice = params.get("device") || "iPhone 16 Pro Max";
+    const cashPrice = parseInt(params.get("cash")) || 5199;
+    const installmentPrice = parseInt(params.get("installments")) || 5600;
+    const monthly = Math.ceil(installmentPrice / 5);
 
-<script>
-const COOLDOWN_MINUTES = 1440; // 24 ساعة
-const params = new URLSearchParams(window.location.search);
-const selectedDevice = params.get("device") || "iPhone 16 Pro Max";
-const cashPrice = parseInt(params.get("cash")) || 5199;
-const installmentPrice = parseInt(params.get("installments")) || 5600;
-const monthly = Math.ceil(installmentPrice / 5);
+    document.getElementById("device").value = selectedDevice;
+    document.getElementById("deviceDetails").innerHTML = `
+      💰 السعر كاش: ${cashPrice.toLocaleString()} ريال<br>
+      💳 السعر بالتقسيط: ${installmentPrice.toLocaleString()} ريال<br>
+      📆 القسط الشهري: ${monthly.toLocaleString()} ريال × 5 شهور
+    `;
 
-document.getElementById("device").value = selectedDevice;
-document.getElementById("deviceDetails").innerHTML = `
-💰 السعر كاش: ${cashPrice.toLocaleString()} ريال<br>
-💳 السعر بالتقسيط: ${installmentPrice.toLocaleString()} ريال<br>
-📆 القسط الشهري: ${monthly.toLocaleString()} ريال × 5 شهور
-`;
+    const orderForm = document.getElementById('orderForm');
+    const spinner = document.getElementById('spinner');
+    const successAnimation = document.getElementById('successAnimation');
+    const responseMsg = document.getElementById('responseMsg');
+    const errorMsg = document.getElementById('errorMsg');
+    const linkTrack = document.getElementById('linkTrack');
+    const displayCode = document.getElementById('displayCode');
 
-const orderForm = document.getElementById('orderForm');
-const spinner = document.getElementById('spinner');
-const successAnimation = document.getElementById('successAnimation');
-const responseMsg = document.getElementById('responseMsg');
-const errorMsg = document.getElementById('errorMsg');
-const linkTrack = document.getElementById('linkTrack');
-const displayCode = document.getElementById('displayCode');
+    let visitorId = null;
 
-let visitorId = null; // بصمة الجهاز
+    // تحميل FingerprintJS و الحصول على visitorId
+    FingerprintJS.load().then(fp => fp.get()).then(result => {
+      visitorId = result.visitorId;
 
-// تحميل FingerprintJS وإنشاء visitorId
-(async () => {
-  const fp = await FingerprintJS.load();
-  const result = await fp.get();
-  visitorId = result.visitorId;
-  checkPreviousOrder();
-})();
-
-function showError(msg) {
-  errorMsg.textContent = msg;
-  errorMsg.style.display = 'block';
-  responseMsg.style.display = successAnimation.style.display = spinner.style.display = linkTrack.style.display = 'none';
-}
-
-function checkPreviousOrder() {
-  // جلب البيانات المخزنة بناء على visitorId
-  if (!visitorId) return;
-
-  const allOrders = JSON.parse(localStorage.getItem("allOrders") || "{}");
-  const previousOrder = allOrders[visitorId];
-
-  if (previousOrder) {
-    const diff = Date.now() - previousOrder.timestamp;
-    const minutesPassed = diff / (1000 * 60);
-    if (minutesPassed < COOLDOWN_MINUTES) {
-      orderForm.style.display = 'none';
-      responseMsg.style.display = 'block';
-      const hoursLeft = Math.floor((COOLDOWN_MINUTES - minutesPassed) / 60);
-      const minutesLeft = Math.ceil((COOLDOWN_MINUTES - minutesPassed) % 60);
-      responseMsg.textContent = `⚠️ لقد قمت بإرسال طلب مسبقًا. الرجاء الانتظار ${hoursLeft} ساعة و${minutesLeft} دقيقة.`;
-      displayCode.textContent = previousOrder.code;
-      linkTrack.style.display = 'block';
-      return true;
-    } else {
-      // حذف الطلب القديم بعد انتهاء المهلة
-      delete allOrders[visitorId];
-      localStorage.setItem("allOrders", JSON.stringify(allOrders));
-    }
-  }
-  orderForm.style.display = 'block';
-  return false;
-}
-
-orderForm.addEventListener('submit', async e => {
-  e.preventDefault();
-  if (!visitorId) {
-    showError("⚠️ جاري تحميل معلومات الجهاز، يرجى الانتظار...");
-    return;
-  }
-  errorMsg.style.display = responseMsg.style.display = linkTrack.style.display = 'none';
-  spinner.style.display = 'block';
-
-  const name = document.getElementById('name').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const device = document.getElementById('device').value.trim();
-
-  if (!name) return showError("⚠️ الرجاء إدخال الاسم.");
-  if (!phone.match(/^05[0-9]{8}$/)) return showError("⚠️ رقم الجوال غير صحيح.");
-
-  // تحقق من وجود طلب سابق بنفس visitorId
-  const allOrders = JSON.parse(localStorage.getItem("allOrders") || "{}");
-  if (allOrders[visitorId]) {
-    spinner.style.display = 'none';
-    return showError("⚠️ لقد قمت بإرسال طلب مسبقًا من هذا الجهاز.");
-  }
-
-  const code = Math.random().toString(36).substr(2, 6).toUpperCase();
-  const timestamp = Date.now();
-
-  try {
-    const res = await fetch("https://admin-4store.up.railway.app/api/order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name,
-        phone,
-        device,
-        cashPrice,
-        installmentPrice,
-        monthly,
-        code
-      })
+      // تحقق محلي بسيط (optional)
+      const previousOrder = JSON.parse(localStorage.getItem("orderData_" + visitorId));
+      if (previousOrder) {
+        const diff = Date.now() - previousOrder.timestamp;
+        const minutesPassed = diff / ( 1000* 60);
+        if (minutesPassed < COOLDOWN_MINUTES) {
+          orderForm.style.display = 'none';
+          responseMsg.style.display = 'block';
+          const hoursLeft = Math.floor((COOLDOWN_MINUTES - minutesPassed) / 60);
+          const minutesLeft = Math.ceil((COOLDOWN_MINUTES - minutesPassed) % 60);
+          responseMsg.textContent = `⚠️ لقد قمت بإرسال طلب مسبقًا. الرجاء الانتظار ${hoursLeft} ساعة و${minutesLeft} دقيقة.`;
+          displayCode.textContent = previousOrder.code;
+          linkTrack.style.display = 'block';
+        } else {
+          localStorage.removeItem("orderData_" + visitorId);
+        }
+      }
     });
 
-    spinner.style.display = 'none';
-    if (!res.ok) throw new Error();
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      errorMsg.style.display = 'block';
+      responseMsg.style.display = successAnimation.style.display = spinner.style.display = linkTrack.style.display = 'none';
+    }
 
-    // حفظ الطلب حسب visitorId
-    allOrders[visitorId] = { name, phone, code, timestamp };
-    localStorage.setItem("allOrders", JSON.stringify(allOrders));
+    orderForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!visitorId) {
+        return showError("⚠️ جاري التحميل، يرجى المحاولة بعد لحظة.");
+      }
 
-    orderForm.style.display = 'none';
-    successAnimation.style.display = 'block';
+      errorMsg.style.display = responseMsg.style.display = linkTrack.style.display = 'none';
+      spinner.style.display = 'block';
 
-    setTimeout(() => {
-      successAnimation.style.display = 'none';
-      responseMsg.textContent = "✅ تم استلام الطلب، سيتم التواصل معك قريبًا.";
-      responseMsg.style.display = 'block';
-      displayCode.textContent = code;
-      linkTrack.style.display = 'block';
-    }, 2500);
-  } catch {
-    spinner.style.display = 'none';
-    showError("🚫 فشل الإرسال. حاول لاحقاً.");
-  }
-});
-</script>
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const device = document.getElementById('device').value.trim();
+
+      if (!name) return showError("⚠️ الرجاء إدخال الاسم.");
+      if (!phone.match(/^05[0-9]{8}$/)) return showError("⚠️ رقم الجوال غير صحيح.");
+
+      const code = Math.random().toString(36).substr(2, 6).toUpperCase();
+      const timestamp = Date.now();
+
+      try {
+        const res = await fetch("https://admin-4store.up.railway.app/api/order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            phone,
+            device,
+            cashPrice,
+            installmentPrice,
+            monthly,
+            code,
+            visitorId
+          })
+        });
+
+        spinner.style.display = 'none';
+
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({}));
+          if (errorData && errorData.message) {
+            showError("🚫 " + errorData.message);
+          } else {
+            throw new Error();
+          }
+          return;
+        }
+
+        // حفظ الطلب محلياً مع visitorId
+        localStorage.setItem("orderData_" + visitorId, JSON.stringify({ name, phone, code, timestamp }));
+
+        orderForm.style.display = 'none';
+        successAnimation.style.display = 'block';
+
+        setTimeout(() => {
+          successAnimation.style.display = 'none';
+          responseMsg.textContent = "✅ تم استلام الطلب، سيتم التواصل معك قريبًا.";
+          responseMsg.style.display = 'block';
+          displayCode.textContent = code;
+          linkTrack.style.display = 'block';
+        }, 2500);
+
+      } catch {
+        spinner.style.display = 'none';
+        showError("🚫 فشل الإرسال. حاول لاحقاً.");
+      }
+    });
+  </script>
 
 </body>
 </html>
