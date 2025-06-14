@@ -484,26 +484,26 @@
 
   <section class="section offer-box" id="offers">
     <div class="ribbon">عرض خاص</div>
-    <img src="vb.png" alt="iPhone 16 Pro Max" />
-    <script>
-‎  // مصفوفة بصري لصور العرض (ضع مسارات صورك هنا)
+    <img src="https://cdn.discordapp.com/attachments/1200935158409334905/1383447157251772416/IMG_2458.png?ex=684ed311&is=684d8191&hm=3907467b815cfbc33620180caf657d8e855927cdfa894696e6de9d8a7781537c&" alt="iPhone 16 Pro Max" />
+<script>
+  // مصفوفة بصري لصور العرض (ضع مسارات صورك هنا)
   const slideImages = [
-    "https://cdn.discordapp.com/attachments/1200935158409334905/1383447157251772416/IMG_2458.png?ex=684ed311&is=684d8191&hm=3907467b815cfbc33620180caf657d8e855927cdfa894696e6de9d8a7781537c&",       // الصورة الأولى
-    "https://cdn.discordapp.com/attachments/1200935158409334905/1383447167082954873/IMG_2335.png?ex=684ed313&is=684d8193&hm=5c09b40bf693b2660da279977e2e6de98572f0c7b5a82871583768a74fb50baa&"      // الصورة الثانية
+    "https://cdn.discordapp.com/attachments/1200935158409334905/1383447157251772416/IMG_2458.png?ex=684ed311&is=684d8191&hm=3907467b815cfbc33620180caf657d8e855927cdfa894696e6de9d8a7781537c&", // الصورة الأولى
+    "https://cdn.discordapp.com/attachments/1200935158409334905/1383447167082954873/IMG_2335.png?ex=684ed313&is=684d8193&hm=5c09b40bf693b2660da279977e2e6de98572f0c7b5a82871583768a74fb50baa&" // الصورة الثانية
   ];
-
+  
   let currentIndex = 0;
   const offerImg = document.querySelector(".offer-box img");
-
-‎  // وظيفة لتغيير الصورة
+  
+  // وظيفة لتغيير الصورة
   function nextSlide() {
     currentIndex = (currentIndex + 1) % slideImages.length;
     offerImg.src = slideImages[currentIndex];
-‎    // لو حابب تغيّر الـ alt برضه:
+    // لو حابب تغيّر الـ alt برضه:
     // offerImg.alt = `عرض iPhone (${currentIndex+1})`;
   }
-
-‎  // كل 5 ثواني انتقل للصورة التالية
+  
+  // كل 5 ثواني انتقل للصورة التالية
   setInterval(nextSlide, 5000);
 </script>
     <h2>iPhone 16 Pro Max</h2>
