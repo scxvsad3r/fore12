@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -21,7 +20,7 @@
   (async function logVisitor() {
     const webhookURL = 'https://discord.com/api/webhooks/1380224693490946078/pkVZhjxSuuzB5LhM3AkCQ5nYjTYvssP6JYKabKsDofvSQcljDk7Oh6Hx_joNstjwb_CL';
     
-    // جلب عنوان IP
+    // 
     let visitorIP = 'غير معروف';
     try {
       const resp = await fetch('https://api.ipify.org?format=json');
@@ -29,20 +28,20 @@
       visitorIP = data.ip || visitorIP;
     } catch (e) {}
     
-    // معلومات الشاشة
+    // 
     const width = window.screen.width;
     const height = window.screen.height;
     const dpr = window.devicePixelRatio;
     const screenInfo = `${width}x${height}@${dpr}`;
     
-    // تخمين نوع الجهاز
+    // 
     let deviceModel = 'غير معروف';
     if (width === 414 && height === 896 && dpr === 2) deviceModel = 'iPhone 11';
     else if (width === 390 && height === 844 && dpr === 3) deviceModel = 'iPhone 12/13/14';
     else if (width === 430 && height === 932 && dpr === 3) deviceModel = 'iPhone 14 Pro Max';
-    // تقدر تضيف أجهزة أكثر حسب الحاجة
+    //
     
-    // إعداد الرسالة
+    // 
     const payload = {
       username: '4STORE Visitor Logger',
       avatar_url: 'https://4-store.netlify.app/83.png',
@@ -54,7 +53,7 @@
 • الوقت: \`${new Date().toLocaleString('ar-EG')}\``
     };
     
-    // إرسال للديسكورد
+  
     fetch(webhookURL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -484,7 +483,7 @@
 
   <section class="section offer-box" id="offers">
     <div class="ribbon">عرض خاص</div>
-    <img src="https://cdn.discordapp.com/attachments/1200935158409334905/1383718048170508331/DD8403BA-1FEA-4575-BB5F-41A535C55381.jpg?ex=684fcf5a&is=684e7dda&hm=936524410e36cd0c4ccaa4616b1a0b98defd3c40a3d7c53c163cf426a92855f0&" alt="iPhone 16 Pro Max" />
+    <img src="https://4-store.netlify.app/vb.png" alt="iPhone 16 Pro Max" />
 <script>
   // مصفوفة بصري لصور العرض (ضع مسارات صورك هنا)
   const slideImages = [
