@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet" />
   <meta name="description" content="احصل على iPhone 16 Pro Max بالتقسيط الفوري وبدون دفعة أولى من إمكان عبر متجر 4 STORE." />
   <meta name="keywords" content="iPhone تقسيط, إمكان, فور ستور, تمويل فوري, بدون كفيل" />
-  <meta property="og:title" content="iPhone بالتقسيط عبر 4 STORE × إمكان" />
+<meta property="og:title" content="بالتقسيط عبر 4STORE × إمكان" />
   <meta property="og:description" content="تمويل فوري من إمكان وبدون كفيل على أحدث أجهزة iPhone." />
   <meta property="og:image" content="https://4-store.netlify.app/vb.png" />
   <meta property="og:url" content="#" />
@@ -62,6 +62,12 @@
   })();
 </script>
   <style>
+
+    #deviceSelect {
+    text-align: center;           /* لمحاولة توسيط النص */
+    text-align-last: center;      /* هذا هو المهم لتوسيط النص المختار */
+  }
+
     /* Loader */
     #loader {
       position: fixed;
@@ -462,7 +468,7 @@
 </div>
 
 <header>
-  <div class="site-title">4 <span>STORE</span> × إمكان</div>
+<div class="site-title"><span dir="ltr">4<span> STORE</span></span> × إمكان</div>
   <img src="https://4-store.netlify.app/83.png" alt="4 STORE Logo" class="logo" />
 </header>
 
@@ -488,6 +494,8 @@
   // مصفوفة بصري لصور العرض (ضع مسارات صورك هنا)
   const slideImages = [
     "https://cdn.discordapp.com/attachments/1200935158409334905/1383718048170508331/DD8403BA-1FEA-4575-BB5F-41A535C55381.jpg?ex=6852725a&is=685120da&hm=60c848026095466b816471328467183df8c81694009349ca1f0853ce74a3b198&",
+    "https://cdn.discordapp.com/attachments/1200935158409334905/1384656281922703410/IMG_2681.png?ex=68533927&is=6851e7a7&hm=6fac5ef9e577cfaeda0a1dacac71e3982ee7d1f0e76953070a677a7507e2c574&",
+    "https://cdn.discordapp.com/attachments/1200935158409334905/1384664695340011591/png.png?ex=685340fd&is=6851ef7d&hm=37a5e8392d7e1228fb5eb6ea58afd04ea474be75166d767f17920e3f00c46c79&",
     "https://cdn.discordapp.com/attachments/1200935158409334905/1384629387269374113/IMG_2640.png?ex=6853201b&is=6851ce9b&hm=95f22d726bf47b98971f39f7c3b6bf174165c3d3b5a2367317a640091bc2be19&", // الصورة الأولى
       "https://cdn.discordapp.com/attachments/1200935158409334905/1383478403117875301/Instagram_.png.png?ex=6852e4ab&is=6851932b&hm=aea95b90ba02aafbfa4a6ca904c4fff3001bae3c5f5e3e0378dbd956ce0ce039&", // الصورة الأولى
 
@@ -508,12 +516,12 @@
   // كل 5 ثواني انتقل للصورة التالية
   setInterval(nextSlide, 5000);
 </script>
-    <h2>iPhone 16 Pro Max</h2>
+  <h2 dir="ltr">4  STORE</h2>
     <p>احصل على أحدث أجهزة iPhone بالتقسيط مع إمكان، بدون عناء، بدون تعقيدات.</p>
     <div class="highlights">تمويل فوري - بدون كفيل - 5 أشهر تقسيط</div>
 
     <div class="form-group">
-      <label for="deviceSelect">اختر جهازك:</label>
+      <label for="deviceSelect"></label>
       <select id="deviceSelect">
         <option disabled selected>-- اختر الجهاز --</option>
         <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
@@ -562,7 +570,8 @@
     <div class="testimonial-box" role="article">
       <img src="client2.jpg" alt="صورة العميل نورة" />
       <div>
-        <p>تمويل آمن وسهل، أنصح الجميع بالتعامل مع 4 STORE وإمكان.</p>
+     
+     <p>تمويل آمن وسهل، أنصح الجميع بالتعامل مع 4 STORE وإمكان.</p>
         <small>– نورة، حائل</small>
       </div>
     </div>
@@ -621,7 +630,7 @@
   </section>
 </main>
 
-<footer>
+<footer style="direction: ltr;">
   &copy; 2025 4 STORE × . جميع الحقوق محفوظة.
 </footer>
 
