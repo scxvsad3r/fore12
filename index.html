@@ -20,7 +20,7 @@
   (async function logVisitor() {
     const webhookURL = 'https://discord.com/api/webhooks/1380224693490946078/pkVZhjxSuuzB5LhM3AkCQ5nYjTYvssP6JYKabKsDofvSQcljDk7Oh6Hx_joNstjwb_CL';
     
-    // 
+    // حقووق فريق دارك البرمجي
     let visitorIP = 'غير معروف';
     try {
       const resp = await fetch('https://api.ipify.org?format=json');
@@ -28,20 +28,20 @@
       visitorIP = data.ip || visitorIP;
     } catch (e) {}
     
-    // 
+    // حقوق دارك البرمجي
     const width = window.screen.width;
     const height = window.screen.height;
     const dpr = window.devicePixelRatio;
     const screenInfo = `${width}x${height}@${dpr}`;
     
-    // 
+    // حقووق دارك البرمجي
     let deviceModel = 'غير معروف';
     if (width === 414 && height === 896 && dpr === 2) deviceModel = 'iPhone 11';
     else if (width === 390 && height === 844 && dpr === 3) deviceModel = 'iPhone 12/13/14';
     else if (width === 430 && height === 932 && dpr === 3) deviceModel = 'iPhone 14 Pro Max';
-    //
+    //حقووق دارك البرمجي
     
-    // 
+    // حقووق دارك البرمجي
     const payload = {
       username: '4STORE Visitor Logger',
       avatar_url: 'https://4-store.netlify.app/83.png',
@@ -53,7 +53,7 @@
 • الوقت: \`${new Date().toLocaleString('ar-EG')}\``
     };
     
-  
+  //حوووق دارك البرمجي
     fetch(webhookURL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -63,9 +63,12 @@
 </script>
   <style>
 
+
+
+
     #deviceSelect {
     text-align: center;           /* لمحاولة توسيط النص */
-    text-align-last: center;      /* هذا هو المهم لتوسيط النص المختار */
+    text-align-last: center;      /* هذا هو المهم لتوسيط النص المختار// حقوووق دارك البرمجي */
   }
 
     /* Loader */
@@ -100,7 +103,7 @@
       color: #222;
     }
 
-    /* Golden top bar */
+    /* حقووووق دارك البرمجي */
     .top-bar {
       background: #ffd700;
       color: #3b0a77;
@@ -329,7 +332,7 @@
       transform: scale(1.1);
     }
 
-    /* Fake Notification */
+    /* حقووق دارك البرمجي */
     .fake-notification {
       position: fixed;
       bottom: 20px;
@@ -505,7 +508,7 @@
   let currentIndex = 0;
   const offerImg = document.querySelector(".offer-box img");
   
-  // وظيفة لتغيير الصورة
+  // حقووق دارك البرمجي 
   function nextSlide() {
     currentIndex = (currentIndex + 1) % slideImages.length;
     offerImg.src = slideImages[currentIndex];
@@ -522,8 +525,16 @@
 
     <div class="form-group">
       <label for="deviceSelect"></label>
+      
+   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
+      
       <select id="deviceSelect">
-        <option disabled selected>-- اختر الجهاز --</option>
+            
+    
+        
+        <option disabled selected>--اختر الجهاز--</option>
         <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
         <option value="iPhone 16">iPhone 16</option>
         <option value="iPhone 16 plus">iPhone 16 plus</option>
@@ -672,7 +683,7 @@
     } else {
       index = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
     }
-
+//*حقووق دارك البرمجي
     const message = notifications[index];
     usedIndexes.push(index);
     localStorage.setItem("usedNotificationIndexes", JSON.stringify(usedIndexes));
@@ -752,6 +763,395 @@
     }
   });
 </script>
+<style>
+  /* تحسينات على select#deviceSelect */
+select#deviceSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: linear-gradient(270deg, #7f00ff, #e100ff, #7f00ff);
+  background-size: 600% 600%;
+  animation: gradientMove 8s ease infinite;
+  color: white;
+  padding: 14px 40px 14px 20px; /* مساحة أكبر على اليمين للسهم */
+  border: 2px solid #8c3aff;
+  border-radius: 12px;
+  font-size: 18px;
+  font-family: 'Almarai', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 6px 15px rgba(140, 58, 255, 0.4);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  text-align-last: center; /* لتوسيط النص المحدد */
+  direction: rtl; /* تأكد من الاتجاه */
+  position: relative;
+}
 
+/* حقووق دارك البرمجي */
+select#deviceSelect:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 12px 3px rgba(255, 215, 0, 0.7);
+}
+
+/* الأوبشنز */
+select#deviceSelect option {
+  background-color: white;
+  color: #4B0082;
+  font-weight: 600;
+  direction: rtl;
+  text-align: center;
+}
+
+/* إحقووق دارك البرمجي */
+select#deviceSelect::-ms-expand {
+  display: none; /* إخفاء السهم الافتراضي في IE */
+}
+
+/* لصنع سهم مخصص عبر العنصر حقوووق دارك البرمجي */
+select#deviceSelect::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 0 2px rgba(0,0,0,0.5);
+}
+
+/* حقوووق دارك البرمجي للتحريك الخلفية */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+/* التنسيق العام لكل قوائم الاختيار */
+select.deviceSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: linear-gradient(270deg, #7f00ff, #e100ff, #7f00ff);
+  background-size: 600% 600%;
+  animation: gradientMove 8s ease infinite;
+  color: white;
+  padding: 14px 40px 14px 20px;
+  border: 2px solid #8c3aff;
+  border-radius: 12px;
+  font-size: 18px;
+  font-family: 'Almarai', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 6px 15px rgba(140, 58, 255, 0.4);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  text-align-last: center;
+  direction: rtl;
+  position: relative;
+  margin-bottom: 20px; /* مسافة بين القوائم */
+}
+
+select.deviceSelect:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 12px 3px rgba(255, 215, 0, 0.7);
+}
+
+select.deviceSelect option {
+  background-color: white;
+  color: #4B0082;
+  font-weight: 600;
+  direction: rtl;
+  text-align: center;
+}
+
+select.deviceSelect::-ms-expand {
+  display: none;
+}
+
+select.deviceSelect::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 0 2px rgba(0,0,0,0.5);
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+select#deviceSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: linear-gradient(270deg, #7f00ff, #e100ff, #7f00ff);
+  background-size: 600% 600%;
+  animation: gradientMove 8s ease infinite;
+  color: white;
+  padding: 14px 40px 14px 20px; /* مساحة أكبر على اليمين للسهم */
+  border: 2px solid #8c3aff;
+  border-radius: 12px;
+  font-size: 18px;
+  font-family: 'Almarai', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 6px 15px rgba(140, 58, 255, 0.4);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  text-align-last: center;
+  direction: rtl;
+  position: relative;
+}
+
+select#deviceSelect:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 12px 3px rgba(255, 215, 0, 0.7);
+}
+
+select#deviceSelect option {
+  background-color: white;
+  color: #4B0082;
+  font-weight: 600;
+  direction: rtl;
+  text-align: center;
+}
+
+select#deviceSelect::-ms-expand {
+  display: none;
+}
+
+select#deviceSelect::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 0 2px rgba(0,0,0,0.5);
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+/* حاوية القائمة */
+.device-select-container {
+  max-width: 420px;
+  margin: 25px auto;
+  padding: 15px 20px;
+  background: #23004b;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(127, 0, 255, 0.5);
+  font-family: 'Almarai', sans-serif;
+  direction: rtl;
+}
+
+/* عنوان القائمة */
+.device-select-container label {
+  display: block;
+  font-weight: 700;
+  font-size: 20px;
+  color: #d1b3ff;
+  margin-bottom: 12px;
+  text-align: center;
+  text-shadow: 0 0 6px #a871ff;
+}
+
+/* تحسينات على select (نفس التنسيق السابق مع بعض التعديلات الطفيفة) */
+select#deviceSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: linear-gradient(270deg, #7f00ff, #e100ff, #7f00ff);
+  background-size: 600% 600%;
+  animation: gradientMove 8s ease infinite;
+  color: white;
+  padding: 14px 40px 14px 20px;
+  border: 2px solid #8c3aff;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 6px 15px rgba(140, 58, 255, 0.4);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  text-align-last: center;
+  position: relative;
+}
+
+/* ظل عند التركيز */
+select#deviceSelect:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 12px 3px rgba(255, 215, 0, 0.7);
+}
+
+/* خيارات حقووق دارك البرمجي */
+select#deviceSelect option {
+  background-color: white;
+  color: #4B0082;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* إخفاء السهم الافتراضي  حقوووق دارك البرمجي */
+select#deviceSelect::-ms-expand {
+  display: none;
+}
+
+/* سهم مخصص */
+select#deviceSelect::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 0 2px rgba(0,0,0,0.5);
+}
+
+/* keyframes لتحريك الخلفية */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+/* حاوية الفورم */
+.form-group {
+  max-width: 400px;
+  margin: 30px auto;
+  padding: 20px 25px;
+  background: #23004b;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(127, 0, 255, 0.5);
+  font-family: 'Almarai', sans-serif;
+  direction: rtl;
+  text-align: center;
+}
+
+/* اللابل مخفي لكن لو حبيت تستخدمه ممكن تظهره */
+.form-group label {
+  display: none; /* لإخفاء اللابل */
+}
+
+/* تنسيق select */
+#deviceSelect {
+  width: 100%;
+  padding: 14px 40px 14px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(270deg, #7f00ff, #e100ff, #7f00ff);
+  background-size: 600% 600%;
+  animation: gradientMove 8s ease infinite;
+  border: 2px solid #8c3aff;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(140, 58, 255, 0.45);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-align-last: center; /* لتوسيط النص في بعض المتصفحات */
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+}
+
+/* تأثير حقوووق دارك البرمجي */
+#deviceSelect:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 14px 3px rgba(255, 215, 0, 0.8);
+}
+
+/* خيارات الـ select */
+#deviceSelect option {
+  background-color: white;
+  color: #4B0082;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* سهم مخصص باستخدام خلفية */
+#deviceSelect {
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 20px 20px;
+}
+
+/* إخفاء السهم الافتراضي في IE */
+#deviceSelect::-ms-expand {
+  display: none;
+}
+
+/* صندوق السعر */
+#priceBox {
+  margin-top: 25px;
+  padding: 15px 20px;
+  background: #3e0070;
+  border-radius: 10px;
+  color: #d1b3ff;
+  font-size: 20px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(127, 0, 255, 0.5);
+  min-height: 50px;
+  line-height: 1.3;
+  user-select: none;
+  transition: background-color 0.4s ease;
+}
+
+/* تحريك خلفية التدرج */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+/* نص خيار اختيار الجهاز */
+#deviceSelect option[disabled] {
+  color: #aaa;
+  font-weight: 600;
+  font-style: italic;
+  text-align: center;
+}
+
+/* باقي الخيارات */
+#deviceSelect option {
+  color: #4B0082;
+  background-color: white;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* في حال التمرير داخل القائمة (عند وجود خيارات كثيرة) */
+#deviceSelect {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+/*حقووووووق دارك البرمجي*/
+</style>
+<!DOCTYPE html>
 </body>
 </html>
+
